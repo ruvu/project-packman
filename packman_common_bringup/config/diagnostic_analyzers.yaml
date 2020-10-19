@@ -1,0 +1,19 @@
+analyzers:
+  robot_interfaces:
+    type: diagnostic_aggregator/AnalyzerGroup
+    path: Robot Interfaces
+    analyzers:
+      computers:
+        type: diagnostic_aggregator/GenericAnalyzer
+        path: Computers
+        contains: ['CPU Information']
+        num_items: 1
+      joystick:
+        type: diagnostic_aggregator/DiscardAnalyzer
+        path: joystick
+        contains: ['joy']
+        num_items: 1
+      twist_mux:
+        type: diagnostic_aggregator/GenericAnalyzer
+        path: twist_mux
+        contains: ['twist_mux']

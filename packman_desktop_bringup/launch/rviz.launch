@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<launch>
+  <group ns="$(anon desktop_bringup)">
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find packman_desktop_bringup)/config/config.rviz" required="true" />
+
+    <!-- Rviz relays -->
+    <include file="$(find packman_desktop_bringup)/launch/includes/rviz_relays.launch.xml"/>
+  </group>
+</launch>

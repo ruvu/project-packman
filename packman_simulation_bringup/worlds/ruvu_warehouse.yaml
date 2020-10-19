@@ -1,0 +1,8 @@
+robot1:
+  initial_pose_x: 5
+  initial_pose_y: 10
+  initial_pose_yaw: 1.57
+robot2:
+  initial_pose_x: 10
+  initial_pose_y: 10
+  initial_pose_yaw: 0

@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+
+<launch>
+  <!-- Load the robot description on the parameter server -->
+  <param name="robot_description" command="xacro --inorder '$(find packman_description)/urdf_xacro/robot.urdf.xacro'"/>
+
+  <!-- Robot state publisher -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" required="true"/>
+
+  <!-- Twist mux -->
+  <node pkg="twist_mux" type="twist_mux" name="twist_mux" required="true">
+    <rosparam command="load" file="$(find packman_common_bringup)/config/twist_mux.yaml" />
+  </node>
+
+  <!-- Joy teleop -->
+  <include file="$(find packman_common_bringup)/launch/joy.launch.xml" />
+
+  <!-- Diagnostics -->
+  <node name="cpu_monitor" pkg="diagnostic_common_diagnostics" type="cpu_monitor.py" required="true">
+      <param name="warning_percentage" value="80" />
+  </node>
+  <node name="diagnostic_aggregator" pkg="diagnostic_aggregator" type="aggregator_node" required="true">
+      <rosparam command="load" file="$(find packman_common_bringup)/config/diagnostic_analyzers.yaml" />
+  </node>
+</launch>

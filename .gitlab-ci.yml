@@ -1,0 +1,45 @@
+---
+include:
+  - project: ruvu/environment
+    file: ROS.gitlab-ci.yml
+
+variables:
+  PACKAGES: >
+    packman_desktop_bringup
+    packman_hardware_bringup
+    packman_intelligence_bringup
+    packman_simulation_bringup
+
+melodic-build-on-schedule:
+  extends: .build-on-schedule
+  variables:
+    ROS_DISTRO: melodic
+melodic-build:
+  extends: .build
+  variables:
+    ROS_DISTRO: melodic
+melodic-test:
+  extends: .test
+  variables:
+    ROS_DISTRO: melodic
+melodic-release:
+  extends: .release
+  variables:
+    ROS_DISTRO: melodic
+
+noetic-build-on-schedule:
+  extends: .build-on-schedule
+  variables:
+    ROS_DISTRO: noetic
+noetic-build:
+  extends: .build
+  variables:
+    ROS_DISTRO: noetic
+#noetic-test:
+#  extends: .test
+#  variables:
+#    ROS_DISTRO: noetic
+noetic-release:
+  extends: .release
+  variables:
+    ROS_DISTRO: noetic

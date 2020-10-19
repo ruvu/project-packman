@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+
+<launch>
+  <arg name="gui" default="true" />
+  <arg name="world" default="ruvu_warehouse" />
+
+  <!-- Load the world specific parameters -->
+  <rosparam command="load" file="$(find packman_simulation_bringup)/worlds/$(arg world).yaml" />
+
+  <!-- Start a gazebo server with physics disabled -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find packman_simulation_bringup)/worlds/$(arg world).world"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="use_clock_frequency" value="true"/>
+    <arg name="pub_clock_frequency" value="500"/>
+    <arg name="gui" value="$(arg gui)"/>
+    <arg name="debug" value="false"/>
+  </include>
+
+  <group ns="robot1">
+    <include file="$(find packman_simulation_bringup)/launch/includes/robot_interfaces.launch.xml">
+      <arg name="robot_name" value="robot1"/>
+    </include>
+    <include file="$(find packman_intelligence_bringup)/launch/intelligence.launch">
+      <arg name="robot_prefix" value="robot1/"/>
+    </include>
+  </group>
+
+  <group ns="robot2">
+    <include file="$(find packman_simulation_bringup)/launch/includes/robot_interfaces.launch.xml">
+      <arg name="robot_name" value="robot2"/>
+    </include>
+    <include file="$(find packman_intelligence_bringup)/launch/intelligence.launch">
+      <arg name="robot_prefix" value="robot2/"/>
+    </include>
+  </group>
+
+  <!-- Diagnostics -->
+  <node name="diagnostic_aggregator" pkg="diagnostic_aggregator" type="aggregator_node">
+    <rosparam command="load" file="$(find packman_common_bringup)/config/diagnostic_analyzers.yaml" />
+  </node>
+  <node name="cpu_monitor" pkg="diagnostic_common_diagnostics" type="cpu_monitor.py" required="true">
+      <param name="warning_percentage" value="100" /> <!-- Because gzclient -->
+  </node>
+</launch>

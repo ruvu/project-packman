@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<launch>
+  <arg name="robot_prefix"/>
+  <node name="amcl" pkg="amcl" type="amcl" required="true">
+    <rosparam file="$(find packman_intelligence_bringup)/config/localization/amcl.yaml" command="load"/>
+    <param name="base_frame_id" value="$(arg robot_prefix)base_link"/>
+    <param name="odom_frame_id" value="$(arg robot_prefix)odom"/>
+    <!-- Parameter remap -->
+    <remap from="~initial_pose_x" to="initial_pose_x" />
+    <remap from="~initial_pose_y" to="initial_pose_y" />
+    <remap from="~initial_pose_a" to="initial_pose_yaw" />
+  </node>
+
+  <node name="add_diagnostic_analyzers" pkg="diagnostic_aggregator" type="add_analyzers">
+    <rosparam command="load" file="$(find packman_intelligence_bringup)/config/diagnostic_analyzers.yaml"/>
+  </node>
+
+</launch>

@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+
+<launch>
+  <arg name="robot_prefix"/>
+  <arg name="config_path" value="$(find packman_intelligence_bringup)/config" />
+  <node name="move_base_flex" pkg="mbf_costmap_nav" type="mbf_costmap_nav" required="true" >
+    <!-- Move base (available planners and misc) -->
+    <rosparam file="$(arg config_path)/navigation/mbf/move_base.yaml" command="load" />
+    <param name="robot_frame" value="$(arg robot_prefix)base_link"/>
+    <param name="global_costmap/robot_base_frame" value="$(arg robot_prefix)base_link"/>
+    <param name="local_costmap/robot_base_frame" value="$(arg robot_prefix)base_link"/>
+
+    <!-- Costmap -->
+    <rosparam file="$(arg config_path)/navigation/mbf/common_costmap.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(arg config_path)/navigation/mbf/common_costmap.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(arg config_path)/navigation/mbf/local_costmap.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(arg config_path)/navigation/mbf/global_costmap.yaml" command="load" ns="global_costmap" />
+
+    <!-- Planners -->
+    <rosparam file="$(arg config_path)/navigation/planners/global_planner.yaml" command="load" ns="global_planner" />
+    <rosparam file="$(arg config_path)/navigation/planners/global_planner.yaml" command="load" ns="backward_planner" />
+    <rosparam file="$(arg config_path)/navigation/planners/backward_planner.yaml" command="load" ns="backward_planner" />
+
+    <!-- Controllers -->
+    <rosparam ns="carrot_controller" file="$(arg config_path)/navigation/controllers/carrot_controller.yaml" command="load"/>
+  </node>
+</launch>

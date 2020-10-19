@@ -1,0 +1,35 @@
+# Robot Configuration Parameters
+max_vel_x: 1.3
+min_vel_x: -0.3
+
+max_vel_y: 0.0
+min_vel_y: 0.0
+
+# The velocity when robot is moving in a straight line
+max_vel_trans:  1.3
+min_vel_trans:  0.01
+
+max_vel_theta: 0.7
+min_vel_theta: 0.0
+
+acc_lim_x: 2.0
+acc_lim_y: 0.0
+acc_lim_theta: 10
+
+# Carrot planner parameters
+carrot_distance: 0.4
+carrot_distance_scaling: 1.0
+p_angle: 1.5
+prune_plan: true
+slow_down_margin: 1
+
+# Goal Tolerance Parametes
+xy_goal_tolerance: 0.05
+yaw_goal_tolerance: 0.03
+latch_xy_goal_tolerance: true
+
+trans_stopped_vel: 0.01
+theta_stopped_vel: 0.01
+
+# Disable forward simulation because the safety field nodes handles that
+sim_time: 0

@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+
+<launch>
+  <arg name="robot_name"/>
+
+  <!-- Load the robot description on the parameter server -->
+  <param name="robot_description" command="xacro --inorder '$(find packman_description)/urdf_xacro/robot.urdf.xacro'
+    robot_name:=$(arg robot_name)"
+  />
+
+  <!-- Spawn the robot using the urdf_xacro -->
+  <node name="spawn_model" pkg="ruvu_gazebo_plugins" type="spawn_model" output="screen">
+      <param name="robot_name" value="$(arg robot_name)"/>
+  </node>
+
+  <!-- Publish transforms -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+
+  <!-- Twist mux -->
+  <node pkg="twist_mux" type="twist_mux" name="twist_mux">
+    <rosparam command="load" file="$(find packman_common_bringup)/config/twist_mux.yaml" />
+  </node>
+
+</launch>

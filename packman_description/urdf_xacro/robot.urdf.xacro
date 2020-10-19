@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="robot">
+  <xacro:arg name="robot_name" default="" />
+
+  <xacro:include filename="$(find packman_description)/urdf_xacro/robot.gazebo" />
+
+  <link name="$(arg robot_name)/base_link">
+    <collision name="collision">
+      <origin xyz="0 0 0.08" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.6 0.4 0.15"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.01"/>
+      <inertia
+        ixx="0.01" ixy="0.0" ixz="0.0"
+        iyy="0.01" iyz="0.0"
+        izz="0.01"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0.08" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.6 0.4 0.15"/>
+      </geometry>
+    </visual>
+  </link>
+
+  <joint name="$(arg robot_name)/laser_joint" type="fixed">
+    <axis xyz="0 1 0" />
+    <origin xyz="0.31 0 0.075" rpy="0 0 0"/>
+    <parent link="$(arg robot_name)/base_link"/>
+    <child link="$(arg robot_name)/laser_link"/>
+  </joint>
+
+  <link name="$(arg robot_name)/laser_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="0.1" radius="0.05"/>
+      </geometry>
+    </visual>
+  </link>
+</robot>

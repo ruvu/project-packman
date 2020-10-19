@@ -1,0 +1,16 @@
+planners:
+  - name: global_planner
+    type: global_planner/GlobalPlanner
+  - name: backward_planner
+    type: global_planner/GlobalPlanner
+
+controllers:
+  - name: carrot_controller
+    type: ruvu_carrot_local_planner/CarrotPlannerROS
+
+recovery_behaviors: []
+
+controller_frequency: 20
+controller_patience: 0
+
+global_frame: map

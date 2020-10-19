@@ -1,0 +1,4 @@
+dev: /dev/xbox_controller
+#dev: /dev/logitech_controller
+autorepeat_rate: 20
+deadzone: 0.2

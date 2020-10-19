@@ -1,0 +1,9 @@
+analyzers:
+  intelligence:
+    type: diagnostic_aggregator/AnalyzerGroup
+    path: Intelligence
+    analyzers:
+      amcl:
+        type: diagnostic_aggregator/GenericAnalyzer
+        path: Localization
+        contains: ['amcl']

@@ -1,0 +1,17 @@
+<library path="lib/libruvu_rviz_plugins">
+  <class name="packman_desktop_bringup/CarrotGoal"
+         type="ruvu_rviz_plugins::PoseTool"
+         base_class_type="rviz::Tool">
+    <description>
+      Send a move base goal with the carrot controller
+    </description>
+  </class>
+
+  <class name="packman_desktop_bringup/BackwardGoal"
+         type="ruvu_rviz_plugins::PoseTool"
+         base_class_type="rviz::Tool">
+    <description>
+      Send a move base goal with the carrot controller
+    </description>
+  </class>
+</library>

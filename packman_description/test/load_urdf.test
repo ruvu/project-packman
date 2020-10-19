@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- load robot -->
+    <param name="robot_description" command="xacro --inorder $(find packman_description)/urdf_xacro/robot.urdf.xacro" />
+</launch>
