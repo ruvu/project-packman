@@ -17,23 +17,7 @@
     <arg name="debug" value="false"/>
   </include>
 
-  <group ns="robot1">
-    <include file="$(find packman_simulation_bringup)/launch/includes/robot_interfaces.launch.xml">
-      <arg name="robot_name" value="robot1"/>
-    </include>
-    <include file="$(find packman_intelligence_bringup)/launch/intelligence.launch">
-      <arg name="robot_prefix" value="robot1/"/>
-    </include>
-  </group>
-
-  <group ns="robot2">
-    <include file="$(find packman_simulation_bringup)/launch/includes/robot_interfaces.launch.xml">
-      <arg name="robot_name" value="robot2"/>
-    </include>
-    <include file="$(find packman_intelligence_bringup)/launch/intelligence.launch">
-      <arg name="robot_prefix" value="robot2/"/>
-    </include>
-  </group>
+  <include file="$(find packman_simulation_bringup)/launch/includes/robot_interfaces.launch.xml"/>
 
   <!-- Diagnostics -->
   <node name="diagnostic_aggregator" pkg="diagnostic_aggregator" type="aggregator_node">

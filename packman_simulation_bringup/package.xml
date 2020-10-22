@@ -19,7 +19,6 @@
   <exec_depend>joint_state_publisher</exec_depend>
   <exec_depend>packman_common_bringup</exec_depend>
   <exec_depend>packman_description</exec_depend>
-  <exec_depend>packman_intelligence_bringup</exec_depend>
   <exec_depend>robot_state_publisher</exec_depend>
   <exec_depend>ruvu_gazebo_plugins</exec_depend>
   <exec_depend>twist_mux</exec_depend>
