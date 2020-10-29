@@ -39,9 +39,14 @@
 
 #include <time.h>
 #include <string>
-#include <ros/node_handle.h>
+#include <memory>
+#include <ros/duration.h>
 
 // forward declarations
+namespace ros
+{
+class NodeHandle;
+}
 namespace hardware_interface
 {
 class RobotHW;
@@ -53,9 +58,6 @@ class ControllerManager;
 
 namespace packman
 {
-// Used to convert seconds elapsed to nanoseconds
-static const double BILLION = 1000000000.0;
-
 /**
  * \brief The control loop - repeatidly calls read() and write() to the hardware interface at a
  * specified frequency
@@ -80,12 +82,6 @@ public:
 protected:
   // Update funcion called with loop_hz_ rate
   void update();
-
-  // Startup and shutdown of the internal node inside a roscpp program
-  ros::NodeHandle nh_;
-
-  // Name of this class
-  std::string name_ = "generic_hw_control_loop";
 
   // Settings
   ros::Duration desired_update_period_;

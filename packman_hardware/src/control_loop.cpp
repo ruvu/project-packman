@@ -42,17 +42,23 @@
 #include <controller_manager/controller_manager.h>
 #include <hardware_interface/robot_hw.h>
 
+// Used to convert seconds elapsed to nanoseconds
+const double BILLION = 1000000000.0;
+
+// Name of this class
+const auto name = "control_loop";
+
 namespace packman
 {
 ControlLoop::ControlLoop(const ros::NodeHandle& nh, std::shared_ptr<hardware_interface::RobotHW> hardware_interface)
-  : nh_(nh), hardware_interface_(hardware_interface)
+  : hardware_interface_(hardware_interface)
 {
   // Create the controller manager
-  controller_manager_.reset(new controller_manager::ControllerManager(hardware_interface_.get(), nh_));
+  controller_manager_.reset(new controller_manager::ControllerManager(hardware_interface_.get(), nh));
 
-  if (!nh_.getParam("loop_hz", loop_hz_))
+  if (!nh.getParam("loop_hz", loop_hz_))
     throw std::runtime_error("Missing parameter loop_hz");
-  if (!nh_.getParam("cycle_time_error_threshold", cycle_time_error_threshold_))
+  if (!nh.getParam("cycle_time_error_threshold", cycle_time_error_threshold_))
     throw std::runtime_error("Missing parameter cycle_time_error_threshold");
 
   // Get current time for use with first update
@@ -79,16 +85,15 @@ void ControlLoop::update()
       ros::Duration(current_time_.tv_sec - last_time_.tv_sec + (current_time_.tv_nsec - last_time_.tv_nsec) / BILLION);
   last_time_ = current_time_;
   ros::Time now = ros::Time::now();
-  // ROS_DEBUG_STREAM_THROTTLE_NAMED(1, "generic_hw_main","Sampled update loop with elapsed
-  // time " << elapsed_time_.toSec());
+  // ROS_DEBUG_STREAM_THROTTLE_NAMED(1, name, "Sampled update loop with elapsed time " << elapsed_time_.toSec());
 
   // Error check cycle time
   const double cycle_time_error = (elapsed_time_ - desired_update_period_).toSec();
   if (cycle_time_error > cycle_time_error_threshold_)
   {
-    ROS_WARN_STREAM_NAMED(name_, "Cycle time exceeded error threshold by: "
-                                     << cycle_time_error << ", cycle time: " << elapsed_time_
-                                     << ", threshold: " << cycle_time_error_threshold_);
+    ROS_WARN_STREAM_NAMED(name, "Cycle time exceeded error threshold by: "
+                                    << cycle_time_error << ", cycle time: " << elapsed_time_
+                                    << ", threshold: " << cycle_time_error_threshold_);
   }
 
   // Input
