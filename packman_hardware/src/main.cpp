@@ -5,61 +5,33 @@
 #include <ros/ros.h>
 
 #include "./robot_hw.h"
+#include "./control_loop.h"
 
+using packman::ControlLoop;
 using packman::RobotHW;
-
-//!
-//! \brief controlThread Separate thread for running the controller
-//!
-void controlThread(ros::Rate rate, RobotHW* robot, controller_manager::ControllerManager* cm)
-{
-  ros::Time last_cycle_time = ros::Time::now();
-  while (ros::ok())
-  {
-    robot->read(ros::Time::now(), ros::Time::now() - last_cycle_time);
-    cm->update(ros::Time::now(), ros::Time::now() - last_cycle_time);
-    robot->write(ros::Time::now(), ros::Time::now() - last_cycle_time);
-
-    if (rate.cycleTime() > rate.expectedCycleTime())
-    {
-      ROS_WARN_STREAM_DELAYED_THROTTLE(10.0, "Cycle time too high: Cycle time: " << rate.cycleTime()
-                                                                                 << ", Expected cycle time: "
-                                                                                 << rate.expectedCycleTime());
-    }
-
-    last_cycle_time = ros::Time::now();
-
-    rate.sleep();
-  }
-}
 
 int main(int argc, char* argv[])
 {
-  ros::init(argc, argv, "packman_hardware");
+  // This main function is inspired by ros_control_boilerplate
 
-  ROS_INFO("Packman Hardware interface initialized");
+  ros::init(argc, argv, "packman_hw_interface");
 
+  // NOTE: We run the ROS loop in a separate thread as external calls such
+  // as service callbacks to load controllers can block the (main) control loop
+  ros::AsyncSpinner spinner(3);
+  spinner.start();
+
+  ros::NodeHandle nh;
   ros::NodeHandle local_nh("~");
-  ros::Rate rate(local_nh.param("frequency", 100));
   std::string can_device = local_nh.param("can_device", std::string("can0"));
 
-  try
-  {
-    RobotHW robot(can_device);
+  // Create the hardware interface specific to your robot
+  auto robot_hw = std::make_shared<RobotHW>(can_device);
+  robot_hw->init(nh, local_nh);
 
-    controller_manager::ControllerManager cm(&robot);
-
-    boost::thread(boost::bind(controlThread, rate, &robot, &cm));
-
-    ROS_INFO("Packman Controller Manager initialized, spinning ...");
-
-    ros::spin();
-  }
-  catch (const std::exception& e)
-  {
-    ROS_FATAL_STREAM("Packman hardware error: " << e.what());
-    return 1;
-  }
+  // Start the control loop
+  ControlLoop control_loop(local_nh, robot_hw);
+  control_loop.run();  // Blocks until shutdown signal recieved
 
   return 0;
 }
