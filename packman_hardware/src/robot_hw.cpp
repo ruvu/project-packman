@@ -1,6 +1,6 @@
 // Copyright 2020 RUVU BV.
 
-#include "./packman_hardware_interface.h"
+#include "./robot_hw.h"
 
 #include <socketcan_interface/threading.h>
 #include <string>

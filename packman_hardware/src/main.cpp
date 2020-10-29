@@ -4,7 +4,7 @@
 #include <controller_manager/controller_manager.h>
 #include <ros/ros.h>
 
-#include "./packman_hardware_interface.h"
+#include "./robot_hw.h"
 
 using packman::RobotHW;
 

@@ -28,14 +28,14 @@ include_directories(
 )
 
 add_library(packman_hardware_interface
-  src/packman_hardware_interface.cpp src/packman_hardware_interface.h
   src/packman_state.h
+  src/robot_hw.cpp src/robot_hw.h
 )
 target_link_libraries(packman_hardware_interface ${catkin_LIBRARIES})
 add_dependencies(packman_hardware_interface ${catkin_EXPORTED_TARGETS})
 
 add_executable(packman_hardware
-  src/packman_hardware_node.cpp
+  src/main.cpp
 )
 target_link_libraries(packman_hardware packman_hardware_interface)
 
