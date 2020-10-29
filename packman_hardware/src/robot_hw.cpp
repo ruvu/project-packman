@@ -89,6 +89,10 @@ void RobotHW::write(const ros::Time& /*time*/, const ros::Duration& /*period*/)
 void RobotHW::plcStateCb(const can::Frame& f)
 {
   ROS_INFO_STREAM("Received PlcState frame " << f);
+
+  RxPDO1 pdo(f.data);
+  ROS_INFO_STREAM_NAMED(name, pdo);
+
   std::lock_guard<std::mutex> lock(state_mutex_);
   state_.plc_.set(f);
 }

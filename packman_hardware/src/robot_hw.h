@@ -1,6 +1,7 @@
 // Copyright 2020 RUVU BV.
 
 #include "./packman_state.h"
+#include "./messages.h"
 
 #include <hardware_interface/joint_command_interface.h>
 #include <hardware_interface/joint_state_interface.h>

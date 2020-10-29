@@ -29,6 +29,7 @@ include_directories(
 
 add_library(packman_hardware_interface
   src/control_loop.cpp src/control_loop.h
+  src/messages.cpp src/messages.h
   src/packman_state.h
   src/robot_hw.cpp src/robot_hw.h
 )
