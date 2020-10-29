@@ -6,10 +6,12 @@
 
 #include "./packman_hardware_interface.h"
 
+using packman::RobotHW;
+
 //!
 //! \brief controlThread Separate thread for running the controller
 //!
-void controlThread(ros::Rate rate, Packman* robot, controller_manager::ControllerManager* cm)
+void controlThread(ros::Rate rate, RobotHW* robot, controller_manager::ControllerManager* cm)
 {
   ros::Time last_cycle_time = ros::Time::now();
   while (ros::ok())
@@ -43,7 +45,7 @@ int main(int argc, char* argv[])
 
   try
   {
-    Packman robot(can_device);
+    RobotHW robot(can_device);
 
     controller_manager::ControllerManager cm(&robot);
 

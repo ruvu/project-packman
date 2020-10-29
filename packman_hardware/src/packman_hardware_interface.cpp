@@ -6,6 +6,8 @@
 #include <string>
 #include <vector>
 
+namespace packman
+{
 void sendRecover(std::shared_ptr<can::ThreadedSocketCANInterface> interface, const can::Frame& frame)
 {
   while (!interface->send(frame))
@@ -31,11 +33,11 @@ void setupPlc(std::shared_ptr<can::ThreadedSocketCANInterface> interface)
   // Send NMT operational
 }
 
-Packman::Packman(const std::string& can_device) : can_interface_(new can::ThreadedSocketCANInterface())
+RobotHW::RobotHW(const std::string& can_device) : can_interface_(new can::ThreadedSocketCANInterface())
 {
-  for (unsigned int i = 0; i < packman::DRIVE_NAMES.size(); i++)
+  for (unsigned int i = 0; i < DRIVE_NAMES.size(); i++)
   {
-    hardware_interface::JointStateHandle joint_state_handle(packman::DRIVE_NAMES[i], &state_.joints_[i].position,
+    hardware_interface::JointStateHandle joint_state_handle(DRIVE_NAMES[i], &state_.joints_[i].position,
                                                             &state_.joints_[i].velocity, &state_.joints_[i].effort);
     joint_state_interface_.registerHandle(joint_state_handle);
 
@@ -53,19 +55,19 @@ Packman::Packman(const std::string& can_device) : can_interface_(new can::Thread
   ROS_INFO_STREAM("Packman: Initialized socketcan interface on device " << can_device);
 
   // Register CAN comm
-  can_listeners_.push_back(can_interface_->createMsgListener(can::MsgHeader(packman::PLC_STATE_ID),
-                                                             FrameDelegate(this, &Packman::plcStateCb)));
-  state_listener_ = can_interface_->createStateListener(StateDelegate(this, &Packman::CANStateCb));
+  can_listeners_.push_back(
+      can_interface_->createMsgListener(can::MsgHeader(PLC_STATE_ID), FrameDelegate(this, &RobotHW::plcStateCb)));
+  state_listener_ = can_interface_->createStateListener(StateDelegate(this, &RobotHW::CANStateCb));
 
   setupPlc(can_interface_);
 }
 
-Packman::~Packman()
+RobotHW::~RobotHW()
 {
   can_interface_->shutdown();
 }
 
-void Packman::read(const ros::Time& /*time*/, const ros::Duration& period)
+void RobotHW::read(const ros::Time& /*time*/, const ros::Duration& period)
 {
   std::lock_guard<std::mutex> lock(state_mutex_);
 
@@ -76,20 +78,20 @@ void Packman::read(const ros::Time& /*time*/, const ros::Duration& period)
   state_.joints_[packman::RIGHT].position += state_.joints_[packman::RIGHT].velocity * period.toSec();
 }
 
-void Packman::write(const ros::Time& /*time*/, const ros::Duration& /*period*/)
+void RobotHW::write(const ros::Time& /*time*/, const ros::Duration& /*period*/)
 {
   // TODO(paul): Cast command velocities to can frame
   // sendRecover(can_interface_, frame);
 }
 
-void Packman::plcStateCb(const can::Frame& f)
+void RobotHW::plcStateCb(const can::Frame& f)
 {
   ROS_INFO_STREAM("Received PlcState frame " << f);
   std::lock_guard<std::mutex> lock(state_mutex_);
   state_.plc_.set(f);
 }
 
-void Packman::CANStateCb(const can::State& s)
+void RobotHW::CANStateCb(const can::State& s)
 {
   std::string err;
   can_interface_->translateError(s.internal_error, err);
@@ -99,3 +101,4 @@ void Packman::CANStateCb(const can::State& s)
 
   ROS_INFO_STREAM("CANState Callback: " << msg.str());
 }
+}  // namespace packman

@@ -11,7 +11,9 @@
 
 #include "./packman_state.h"
 
-class Packman : public hardware_interface::RobotHW
+namespace packman
+{
+class RobotHW : public hardware_interface::RobotHW
 {
 public:
   using FrameDelegate = can::CommInterface::FrameDelegate;
@@ -20,8 +22,8 @@ public:
   //!
   //! \brief Packman Robot hardware interface
   //!
-  explicit Packman(const std::string& can_device);
-  ~Packman() override;
+  explicit RobotHW(const std::string& can_device);
+  ~RobotHW() override;
 
   //!
   //! \brief read Packman data to JointState interface
@@ -56,10 +58,11 @@ private:
   //!
   //! \brief state_ State of the Packman
   //!
-  packman::State state_;
+  State state_;
 
   //!
   //! \brief state_mutex_ Mutex for access to state_
   //!
   std::mutex state_mutex_;
 };
+}  // namespace packman
