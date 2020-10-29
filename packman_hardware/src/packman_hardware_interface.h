@@ -5,7 +5,7 @@
 #include <hardware_interface/robot_hw.h>
 #include <socketcan_interface/socketcan.h>
 #include <thread>  // NOLINT
-#include <mutex>  // NOLINT
+#include <mutex>   // NOLINT
 #include <string>
 #include <vector>
 
@@ -20,7 +20,7 @@ public:
   //!
   //! \brief Packman Robot hardware interface
   //!
-  Packman(const std::string& can_device);
+  explicit Packman(const std::string& can_device);
   ~Packman() override;
 
   //!
@@ -52,7 +52,6 @@ private:
   //!
   std::vector<can::CommInterface::FrameListenerConstSharedPtr> can_listeners_;
   can::StateInterface::StateListenerConstSharedPtr state_listener_;
-
 
   //!
   //! \brief state_ State of the Packman

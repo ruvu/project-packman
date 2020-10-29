@@ -25,14 +25,13 @@ void sendRecover(std::shared_ptr<can::ThreadedSocketCANInterface> interface, con
 
 void setupPlc(std::shared_ptr<can::ThreadedSocketCANInterface> interface)
 {
-    // TODO:
-    // Send NMT pre-operational
-    // Set heartbeat cycle time to 0.3s using a SDO to 1017 (in ms)
-    // Send NMT operational
+  // TODO(paul):
+  // Send NMT pre-operational
+  // Set heartbeat cycle time to 0.3s using a SDO to 1017 (in ms)
+  // Send NMT operational
 }
 
-Packman::Packman(const std::string& can_device)
-  : can_interface_(new can::ThreadedSocketCANInterface())
+Packman::Packman(const std::string& can_device) : can_interface_(new can::ThreadedSocketCANInterface())
 {
   for (unsigned int i = 0; i < packman::DRIVE_NAMES.size(); i++)
   {
@@ -79,13 +78,13 @@ void Packman::read(const ros::Time& /*time*/, const ros::Duration& period)
 
 void Packman::write(const ros::Time& /*time*/, const ros::Duration& /*period*/)
 {
-  // TODO: Cast command velocities to can frame
+  // TODO(paul): Cast command velocities to can frame
   // sendRecover(can_interface_, frame);
 }
 
 void Packman::plcStateCb(const can::Frame& f)
 {
-  ROS_DEBUG_STREAM("Received PlcState frame " << f);
+  ROS_INFO_STREAM("Received PlcState frame " << f);
   std::lock_guard<std::mutex> lock(state_mutex_);
   state_.plc_.set(f);
 }

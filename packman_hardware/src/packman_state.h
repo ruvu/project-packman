@@ -34,7 +34,6 @@ struct PlcStatus
   int battery_state_of_charge_ = 0;  // in %
 };
 
-
 //!
 //! \brief The PlcState struct holds the state information of the Packman PLC
 //!
@@ -43,7 +42,7 @@ struct PlcState
 {
   void set(const can::Frame& f)
   {
-    //TODO: deserialize can frame and cast on PlcState
+    // TODO(paul): deserialize can frame and cast on PlcState
     received_ = true;
   }
 
@@ -93,4 +92,4 @@ struct State
     Joint() = default;
   } joints_[packman::NUM_DRIVES];  // NOLINT
 };
-}  // namespace exr1
+}  // namespace packman
