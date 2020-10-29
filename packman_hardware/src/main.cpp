@@ -1,11 +1,9 @@
 // Copyright 2020 RUVU BV.
 
-#include <string>
-#include <controller_manager/controller_manager.h>
-#include <ros/ros.h>
-
 #include "./robot_hw.h"
 #include "./control_loop.h"
+
+#include <string>
 
 using packman::ControlLoop;
 using packman::RobotHW;

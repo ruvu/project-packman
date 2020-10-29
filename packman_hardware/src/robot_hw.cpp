@@ -4,7 +4,8 @@
 
 #include <socketcan_interface/threading.h>
 #include <string>
-#include <vector>
+
+const auto name = "robot_hw";
 
 namespace packman
 {
@@ -25,15 +26,7 @@ void sendRecover(std::shared_ptr<can::ThreadedSocketCANInterface> interface, con
   }
 }
 
-void setupPlc(std::shared_ptr<can::ThreadedSocketCANInterface> interface)
-{
-  // TODO(paul):
-  // Send NMT pre-operational
-  // Set heartbeat cycle time to 0.3s using a SDO to 1017 (in ms)
-  // Send NMT operational
-}
-
-RobotHW::RobotHW(const std::string& can_device) : can_interface_(new can::ThreadedSocketCANInterface())
+RobotHW::RobotHW(const std::string& can_device)
 {
   for (unsigned int i = 0; i < DRIVE_NAMES.size(); i++)
   {
@@ -47,24 +40,33 @@ RobotHW::RobotHW(const std::string& can_device) : can_interface_(new can::Thread
   registerInterface(&joint_state_interface_);
   registerInterface(&velocity_joint_interface_);
 
-  ROS_INFO_STREAM("Packman: Binding to socketcan interface " << can_device << " ...");
-  if (!can_interface_->init(can_device, false))
+  ROS_INFO_STREAM_NAMED(name, "Binding to socketcan interface " << can_device << " ...");
+  if (!can_interface_.init(can_device, false, can::NoSettings::create()))
   {
     throw std::runtime_error("Packman: Could not set-up socketcan interface on device " + can_device);
   }
-  ROS_INFO_STREAM("Packman: Initialized socketcan interface on device " << can_device);
+  ROS_INFO_STREAM_NAMED(name, "Initialized socketcan interface on device " << can_device);
 
   // Register CAN comm
-  can_listeners_.push_back(
-      can_interface_->createMsgListener(can::MsgHeader(PLC_STATE_ID), FrameDelegate(this, &RobotHW::plcStateCb)));
-  state_listener_ = can_interface_->createStateListener(StateDelegate(this, &RobotHW::CANStateCb));
-
-  setupPlc(can_interface_);
+  using std::placeholders::_1;
+  can_listener_ =
+      can_interface_.createMsgListener(can::MsgHeader(PLC_STATE_ID), std::bind(&RobotHW::plcStateCb, this, _1));
+  state_listener_ = can_interface_.createStateListener(std::bind(&RobotHW::CANStateCb, this, _1));
 }
 
 RobotHW::~RobotHW()
 {
-  can_interface_->shutdown();
+  ROS_INFO_NAMED(name, "Shutting down the can device");
+  can_interface_.shutdown();
+}
+
+bool RobotHW::init(ros::NodeHandle& /*root_nh*/, ros::NodeHandle& /*robot_hw_nh*/)
+{
+  // TODO(paul):
+  // Send NMT pre-operational
+  // Set heartbeat cycle time to 0.3s using a SDO to 1017 (in ms)
+  // Send NMT operational
+  return true;
 }
 
 void RobotHW::read(const ros::Time& /*time*/, const ros::Duration& period)
@@ -94,7 +96,7 @@ void RobotHW::plcStateCb(const can::Frame& f)
 void RobotHW::CANStateCb(const can::State& s)
 {
   std::string err;
-  can_interface_->translateError(s.internal_error, err);
+  can_interface_.translateError(s.internal_error, err);
 
   std::stringstream msg;
   msg << "CAN state=" << s.driver_state << " error=" << s.internal_error << "(" << err << ") asio: " << s.error_code;

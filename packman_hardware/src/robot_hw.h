@@ -1,29 +1,27 @@
 // Copyright 2020 RUVU BV.
 
+#include "./packman_state.h"
+
 #include <hardware_interface/joint_command_interface.h>
 #include <hardware_interface/joint_state_interface.h>
 #include <hardware_interface/robot_hw.h>
 #include <socketcan_interface/socketcan.h>
-#include <thread>  // NOLINT
-#include <mutex>   // NOLINT
-#include <string>
-#include <vector>
-
-#include "./packman_state.h"
+#include <socketcan_interface/threading.h>
+#include <mutex> // NOLINT
+#include <string> // NOLINT
 
 namespace packman
 {
 class RobotHW : public hardware_interface::RobotHW
 {
 public:
-  using FrameDelegate = can::CommInterface::FrameDelegate;
-  using StateDelegate = can::StateInterface::StateDelegate;
-
   //!
   //! \brief Packman Robot hardware interface
   //!
   explicit RobotHW(const std::string& can_device);
   ~RobotHW() override;
+
+  bool init(ros::NodeHandle& /*root_nh*/, ros::NodeHandle &/*robot_hw_nh*/) override;
 
   //!
   //! \brief read Packman data to JointState interface
@@ -47,12 +45,12 @@ private:
   //!
   //! \brief can_interface_ Socketcan interface (can connection)
   //!
-  std::shared_ptr<can::ThreadedSocketCANInterface> can_interface_;
+  can::ThreadedSocketCANInterface can_interface_;
 
   //!
   //! \brief can_listeners_ Listeners for the various different frames coming from the plc
   //!
-  std::vector<can::CommInterface::FrameListenerConstSharedPtr> can_listeners_;
+  can::CommInterface::FrameListenerConstSharedPtr can_listener_;
   can::StateInterface::StateListenerConstSharedPtr state_listener_;
 
   //!

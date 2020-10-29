@@ -2,14 +2,18 @@
 
 #pragma once
 
-#include <vector>
+#include <array>
 #include <string>
-#include <socketcan_interface/interface.h>
-#include <socketcan_interface/string.h>
+
+// forward declare
+namespace can
+{
+class Frame;
+}
 
 namespace packman
 {
-const std::vector<std::string> DRIVE_NAMES = { "left_wheel", "right_wheel" };
+const std::array<std::string, 2> DRIVE_NAMES = { "left_wheel", "right_wheel" };
 enum DriveIds
 {
   LEFT,
