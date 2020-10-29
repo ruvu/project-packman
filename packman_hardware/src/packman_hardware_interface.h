@@ -14,8 +14,8 @@
 class Packman : public hardware_interface::RobotHW
 {
 public:
-  using FrameDelegate = can::CommInterface::FrameFunc;
-  using StateDelegate = can::StateInterface::StateFunc;
+  using FrameDelegate = can::CommInterface::FrameDelegate;
+  using StateDelegate = can::StateInterface::StateDelegate;
 
   //!
   //! \brief Packman Robot hardware interface

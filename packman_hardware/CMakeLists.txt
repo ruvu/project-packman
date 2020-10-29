@@ -13,7 +13,9 @@ find_package(catkin REQUIRED COMPONENTS
 ## catkin specific configuration ##
 ###################################
 
-catkin_package()
+catkin_package(
+  CATKIN_DEPENDS roscpp
+)
 
 ###########
 ## Build ##
@@ -25,11 +27,16 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
-add_library(packman_hardware_interface src/packman_hardware_interface.cpp)
+add_library(packman_hardware_interface
+  src/packman_hardware_interface.cpp src/packman_hardware_interface.h
+  src/packman_state.h
+)
 target_link_libraries(packman_hardware_interface ${catkin_LIBRARIES})
 add_dependencies(packman_hardware_interface ${catkin_EXPORTED_TARGETS})
 
-add_executable(packman_hardware src/packman_hardware_node.cpp)
+add_executable(packman_hardware
+  src/packman_hardware_node.cpp
+)
 target_link_libraries(packman_hardware packman_hardware_interface)
 
 #############
