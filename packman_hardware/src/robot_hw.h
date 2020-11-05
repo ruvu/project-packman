@@ -1,15 +1,16 @@
 // Copyright 2020 RUVU BV.
 
-#include "./packman_state.h"
-#include "./messages.h"
-
 #include <hardware_interface/joint_command_interface.h>
 #include <hardware_interface/joint_state_interface.h>
 #include <hardware_interface/robot_hw.h>
 #include <socketcan_interface/socketcan.h>
 #include <socketcan_interface/threading.h>
-#include <mutex> // NOLINT
-#include <string> // NOLINT
+
+#include <mutex>   // NOLINT
+#include <string>  // NOLINT
+
+#include "./messages.h"
+#include "./packman_state.h"
 
 namespace packman
 {
@@ -22,7 +23,7 @@ public:
   explicit RobotHW(const std::string& can_device);
   ~RobotHW() override;
 
-  bool init(ros::NodeHandle& /*root_nh*/, ros::NodeHandle &/*robot_hw_nh*/) override;
+  bool init(ros::NodeHandle& /*root_nh*/, ros::NodeHandle& /*robot_hw_nh*/) override;
 
   //!
   //! \brief read Packman data to JointState interface

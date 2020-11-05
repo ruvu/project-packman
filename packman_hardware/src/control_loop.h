@@ -37,10 +37,11 @@
    using MONOTOIC system time
 */
 
-#include <time.h>
-#include <string>
-#include <memory>
 #include <ros/duration.h>
+#include <time.h>
+
+#include <memory>
+#include <string>
 
 // forward declarations
 namespace ros
@@ -73,8 +74,7 @@ public:
    * \param NodeHandle
    * \param hardware_interface - the robot-specific hardware interface to be use with your robot
    */
-  ControlLoop(const ros::NodeHandle& nh,
-      std::shared_ptr<hardware_interface::RobotHW> hardware_interface);
+  ControlLoop(const ros::NodeHandle& nh, std::shared_ptr<hardware_interface::RobotHW> hardware_interface);
 
   // Run the control loop (blocking)
   void run();

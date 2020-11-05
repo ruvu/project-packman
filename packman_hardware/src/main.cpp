@@ -1,9 +1,9 @@
 // Copyright 2020 RUVU BV.
 
-#include "./robot_hw.h"
-#include "./control_loop.h"
-
 #include <string>
+
+#include "./control_loop.h"
+#include "./robot_hw.h"
 
 using packman::ControlLoop;
 using packman::RobotHW;
