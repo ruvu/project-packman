@@ -81,6 +81,23 @@ void PacmanInterface::init()
   // TODO: Set heartbeat cycle time to 0.3s using a SDO to 1017 (in ms)
 }
 
+void PacmanInterface::drive(double left, double right)
+{
+  TxPDO1 pdo = {};
+  pdo.target_left_motor_speed = left;
+  pdo.target_right_motor_speed = right;
+  pdo.ok(true);
+  pdo.enableLeftMotor(true);
+  pdo.enableRightMotor(true);
+  ROS_INFO_STREAM_NAMED(name, "Sending " << pdo);
+
+  auto data = static_cast<decltype(can::Frame::data)>(pdo);
+  can::Frame frame(can::Header(TxPDO1::ID, false, false, false), 8);
+  frame.data = data;
+
+  can_interface_.send(frame);
+}
+
 void PacmanInterface::plcStateCb(const can::Frame& f)
 {
   // ROS_INFO_STREAM("Received PlcState frame " << f);

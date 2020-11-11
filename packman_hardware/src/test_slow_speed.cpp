@@ -1,5 +1,6 @@
 // Copyright 2020 RUVU BV.
 
+#include <geometry_msgs/Twist.h>
 #include <ros/init.h>
 #include <ros/node_handle.h>
 
@@ -14,12 +15,15 @@ int main(int argc, char* argv[])
     ros::console::notifyLoggerLevelsChanged();
   }
 
-  ros::NodeHandle local_nh("~");
-  {
-    PacmanInterface interface;
-    interface.init();
-    ROS_INFO("%s started", local_nh.getNamespace().c_str());
-    ros::MultiThreadedSpinner spinner(2);
-    spinner.spin();
-  }
+  ros::NodeHandle nh;
+  PacmanInterface interface;
+  interface.init();
+  ROS_INFO("%s started", ros::NodeHandle("~").getNamespace().c_str());
+
+  boost::function<void(const geometry_msgs::Twist::ConstPtr&)> cb =
+      [&interface](const geometry_msgs::Twist::ConstPtr& msg) { interface.drive(msg->linear.x, msg->angular.z); };
+  ros::Subscriber sub = nh.subscribe("cmd_vel", 1, cb);
+
+  ros::MultiThreadedSpinner spinner(2);
+  spinner.spin();
 }

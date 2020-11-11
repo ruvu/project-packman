@@ -12,6 +12,7 @@ public:
   ~PacmanInterface();
 
   void init();
+  void drive(double left, double right);
 
 private:
   static const uint8_t PLC_NODE_ID = 0x02;
