@@ -1,3 +1,5 @@
+// Copyright 2020 RUVU BV.
+
 #pragma once
 
 #include <socketcan_interface/socketcan.h>

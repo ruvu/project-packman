@@ -1,6 +1,10 @@
+// Copyright 2020 RUVU BV.
+
 #include "./pacman_interface.h"
 
 #include <ros/node_handle.h>
+
+#include <string>
 
 #include "./messages.h"
 
@@ -78,7 +82,7 @@ void PacmanInterface::init()
     }
   }
 
-  // TODO: Set heartbeat cycle time to 0.3s using a SDO to 1017 (in ms)
+  // TODO(ramon): Set heartbeat cycle time to 0.3s using a SDO to 1017 (in ms)
 }
 
 void PacmanInterface::drive(double left, double right)

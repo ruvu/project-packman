@@ -65,4 +65,5 @@ install(DIRECTORY
 ## Testing ##
 #############
 
+set(ROSLINT_CPP_OPTS "--filter=-build/header_guard,-whitespace/braces")
 ruvu_lint_add_test()

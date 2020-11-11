@@ -1,3 +1,5 @@
+// Copyright 2020 RUVU BV.
+
 #include "./nmt.hpp"
 
 std::ostream& operator<<(std::ostream& os, const NMTstate& state)
