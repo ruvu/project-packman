@@ -12,6 +12,11 @@
     <remap from="~initial_pose_a" to="initial_pose_yaw" />
   </node>
 
+  <node name="tf_to_pose_stamped" pkg="ruvu_msg_converters" type="tf_to_pose_stamped">
+    <param name="source_frame" value="$(arg robot_prefix)base_link"/>
+    <param name="target_frame" value="map"/>
+  </node>
+
   <node name="add_diagnostic_analyzers" pkg="diagnostic_aggregator" type="add_analyzers">
     <rosparam command="load" file="$(find packman_intelligence_bringup)/config/diagnostic_analyzers.yaml"/>
   </node>
