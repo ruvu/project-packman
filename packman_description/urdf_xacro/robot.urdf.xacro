@@ -4,11 +4,12 @@
 
   <xacro:include filename="$(find packman_description)/urdf_xacro/robot.gazebo" />
 
+  <!-- Base -->
   <link name="$(arg robot_name)/base_link">
     <collision name="collision">
-      <origin xyz="0 0 0.08" rpy="0 0 0"/>
+      <origin xyz="0.225 0 0.085" rpy="0 0 0"/>
       <geometry>
-        <box size="0.6 0.4 0.15"/>
+        <box size="0.7 0.5 0.13"/>
       </geometry>
     </collision>
     <inertial>
@@ -19,16 +20,30 @@
         izz="0.01"/>
     </inertial>
     <visual>
-      <origin xyz="0 0 0.08" rpy="0 0 0"/>
+      <origin xyz="0.225 0 0.085" rpy="0 0 0"/>
       <geometry>
-        <box size="0.6 0.4 0.15"/>
+        <box size="0.7 0.5 0.13"/>
+      </geometry>
+    </visual>
+    <visual>
+      <origin xyz="0.035 0 0.17" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.32 0.5 0.04"/>
+      </geometry>
+    </visual>
+    <visual>
+      <origin xyz="0.225 0 0.215" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.7 0.5 0.05"/>
       </geometry>
     </visual>
   </link>
+  </link>
 
+  <!-- Laser -->
   <joint name="$(arg robot_name)/laser_joint" type="fixed">
     <axis xyz="0 1 0" />
-    <origin xyz="0.31 0 0.075" rpy="0 0 0"/>
+    <origin xyz="0.47 0 0.17" rpy="0 0 0"/>
     <parent link="$(arg robot_name)/base_link"/>
     <child link="$(arg robot_name)/laser_link"/>
   </joint>
@@ -37,7 +52,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <cylinder length="0.1" radius="0.05"/>
+        <cylinder length="0.05" radius="0.05"/>
       </geometry>
     </visual>
   </link>
