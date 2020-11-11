@@ -21,8 +21,7 @@ PacmanInterface::PacmanInterface()
   }
   ROS_INFO_STREAM_NAMED(name, "Initialized socketcan interface on device " << can_device);
 
-  nmt_state_ = {};
-  ROS_INFO_STREAM_NAMED(name, "Initial state: " << nmt_state_);
+  std::atomic_init(&nmt_state_, NMTstate{});
 
   // Register CAN comm
   using std::placeholders::_1;
@@ -32,13 +31,14 @@ PacmanInterface::PacmanInterface()
   heartbeat_listener_ = can_interface_.createMsgListener(can::MsgHeader(NMTstate::ID), [this](const can::Frame& frame) {
     ROS_DEBUG_STREAM_NAMED(name, "Heartbeat: " << frame);
     NMTstate::Frame state(frame);
-    nmt_state_ = state.data;
+    nmt_state_.store(state.data);
     ROS_INFO_STREAM_NAMED(name, "Heartbeat: " << state);
   });
 }
 
 PacmanInterface::~PacmanInterface()
 {
+  can_interface_.send(NMTcommand::Frame(PLC_NODE_ID, NMTcommand::Stop));
   puts("Shutting down the CAN device");
   can_interface_.shutdown();
   puts("Successfully shut down the CAN device");
@@ -51,7 +51,7 @@ void PacmanInterface::init()
   {
     ros::spinOnce();
     r.sleep();
-    auto state = nmt_state_;
+    auto state = nmt_state_.load();
     switch (state.command)
     {
       case NMTstate::Initialising:

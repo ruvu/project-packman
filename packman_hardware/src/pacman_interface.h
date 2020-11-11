@@ -25,5 +25,5 @@ private:
   can::CommInterface::FrameListenerConstSharedPtr heartbeat_listener_;
 
   //  std::atomic<NMTstate::Frame> nmt_state_;
-  NMTstate nmt_state_;
+  std::atomic<NMTstate> nmt_state_;
 };
