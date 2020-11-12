@@ -57,4 +57,20 @@ std::ostream& operator<<(std::ostream& os, const RxPDO1& pdo)
 
   return os;
 }
+
+TxPDO2::operator std::array<unsigned char, 8>() const
+{
+  std::array<unsigned char, 8> data;
+  static_assert(sizeof(*this) == sizeof(data), "sizeof(TxPDO2) != sizeof(data)");
+  *reinterpret_cast<TxPDO2*>(data.data()) = *this;
+  return data;
+}
+
+TxPDO3::operator std::array<unsigned char, 8>() const
+{
+  std::array<unsigned char, 8> data;
+  static_assert(sizeof(*this) == sizeof(data), "sizeof(TxPDO1) != sizeof(data)");
+  *reinterpret_cast<TxPDO3*>(data.data()) = *this;
+  return data;
+}
 }  // namespace packman_hardware

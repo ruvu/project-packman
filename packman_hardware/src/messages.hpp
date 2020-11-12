@@ -15,6 +15,8 @@ namespace packman_hardware
  */
 struct TxPDO1
 {
+  static const unsigned int ID = 0x202;
+
   boost::endian::big_int16_t target_left_motor_speed;
   boost::endian::big_int16_t target_right_motor_speed;
 
@@ -22,6 +24,8 @@ struct TxPDO1
   uint8_t digouts;
 
   boost::endian::big_int16_t target_fork_height;
+
+  explicit operator std::array<unsigned char, 8>() const;
 
   bool moveForkExecute() const
   {
@@ -72,10 +76,6 @@ struct TxPDO1
     flags = (flags & ~(1 << 0)) | (1 << 0);
   }
 
-  static const unsigned int ID = 0x202;
-
-  explicit operator std::array<unsigned char, 8>() const;
-
   friend std::ostream& operator<<(std::ostream& os, const TxPDO1& pdo);
 };
 static_assert(sizeof(TxPDO1) == 8, "sizeof(TxPDO1) != 8");
@@ -87,19 +87,15 @@ static_assert(sizeof(TxPDO1) == 8, "sizeof(TxPDO1) != 8");
  */
 struct RxPDO1
 {
-public:
+  static const unsigned int ID = 0x182;
+
   boost::endian::big_int16_t actual_left_motor_speed = 0;
   boost::endian::big_int16_t actual_right_motor_speed = 0;
   uint8_t flags = 0;
   uint8_t digins = 0;
   uint8_t battery = 0;
-
-  static const unsigned int ID = 0x182;
-
-private:
   uint8_t reserved = 0;
 
-public:
   RxPDO1() = default;
   explicit RxPDO1(const std::array<unsigned char, 8> data);
 
@@ -131,4 +127,33 @@ public:
   friend std::ostream& operator<<(std::ostream& os, const RxPDO1& pdo);
 };
 static_assert(sizeof(RxPDO1) == 8, "sizeof(RxPDO1) != 8");
+
+struct TxPDO2
+{
+  static const unsigned int ID = 0x302;
+
+  boost::endian::big_int24_t x = 0;
+  boost::endian::big_int24_t y = 0;
+  boost::endian::big_int16_t theta = 0;
+
+  explicit operator std::array<unsigned char, 8>() const;
+
+  friend std::ostream& operator<<(std::ostream& os, const RxPDO1& pdo);
+};
+static_assert(sizeof(TxPDO2) == 8, "sizeof(TxPDO2) != 8");
+
+struct TxPDO3
+{
+  static const unsigned int ID = 0x402;
+
+  boost::endian::big_uint16_t critical_errors = 0;
+  boost::endian::big_uint16_t errors = 0;
+  boost::endian::big_uint16_t warnings = 0;
+  boost::endian::big_uint16_t notices = 0;
+
+  explicit operator std::array<unsigned char, 8>() const;
+
+  friend std::ostream& operator<<(std::ostream& os, const RxPDO1& pdo);
+};
+static_assert(sizeof(TxPDO3) == 8, "sizeof(TxPDO3) != 8");
 }  // namespace packman_hardware
