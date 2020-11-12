@@ -5,6 +5,8 @@
 #include <ros/console.h>
 #include <socketcan_interface/interface.h>
 
+namespace packman_hardware
+{
 template <typename T>
 struct FrameOverlay : public can::Frame
 {
@@ -72,3 +74,4 @@ struct NMTstate
 std::ostream& operator<<(std::ostream& os, const NMTstate& state);
 
 std::ostream& operator<<(std::ostream& os, const NMTstate::Frame& state);
+}  // namespace packman_hardware

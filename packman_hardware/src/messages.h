@@ -6,6 +6,8 @@
 #include <boost/endian/arithmetic.hpp>
 #include <iostream>
 
+namespace packman_hardware
+{
 /**
  * @brief Commands send to the PCL
  *
@@ -129,3 +131,4 @@ public:
   friend std::ostream& operator<<(std::ostream& os, const RxPDO1& pdo);
 };
 static_assert(sizeof(RxPDO1) == 8, "sizeof(RxPDO1) != 8");
+}  // namespace packman_hardware

@@ -57,7 +57,7 @@ namespace controller_manager
 class ControllerManager;
 }
 
-namespace packman
+namespace packman_hardware
 {
 /**
  * \brief The control loop - repeatidly calls read() and write() to the hardware interface at a
@@ -106,4 +106,4 @@ protected:
   std::shared_ptr<hardware_interface::RobotHW> hardware_interface_;
 };  // end class
 
-}  // namespace packman
+}  // namespace packman_hardware

@@ -6,7 +6,7 @@
 
 #include <string>
 
-namespace packman
+namespace packman_hardware
 {
 const auto name = "robot_hw";
 const std::array<std::string, 2> joint_names = { "left_wheel", "right_wheel" };
@@ -77,4 +77,4 @@ void RobotHW::write(const ros::Time& /*time*/, const ros::Duration& /*period*/)
   // ROS_INFO_STREAM_NAMED(name, "right: " << commands_[0].velocity << ", cmd: " << pdo.target_left_motor_speed);
   interface_.sendValues(pdo);
 }
-}  // namespace packman
+}  // namespace packman_hardware

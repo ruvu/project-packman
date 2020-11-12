@@ -7,6 +7,8 @@
 
 #include <string>
 
+namespace packman_hardware
+{
 const auto name = "pacman_interface";
 
 PacmanInterface::PacmanInterface(const std::string& can_device)
@@ -121,3 +123,4 @@ void PacmanInterface::CANStateCb(const can::State& s)
   ROS_INFO_STREAM_NAMED(name, "CANState Callback: CAN state=" << s.driver_state << " error=" << s.internal_error << "("
                                                               << err << ") asio: " << s.error_code);
 }
+}  // namespace packman_hardware

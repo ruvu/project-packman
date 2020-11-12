@@ -2,6 +2,8 @@
 
 #include "./nmt.hpp"
 
+namespace packman_hardware
+{
 std::ostream& operator<<(std::ostream& os, const NMTstate& state)
 {
   os << "NMTstate: ";
@@ -26,3 +28,4 @@ std::ostream& operator<<(std::ostream& os, const NMTstate::Frame& state)
 {
   return os << state.data;
 }
+}  // namespace packman_hardware

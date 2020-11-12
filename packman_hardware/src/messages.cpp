@@ -4,6 +4,8 @@
 
 #include <bitset>
 
+namespace packman_hardware
+{
 TxPDO1::operator std::array<unsigned char, 8>() const
 {
   std::array<unsigned char, 8> data;
@@ -55,3 +57,4 @@ std::ostream& operator<<(std::ostream& os, const RxPDO1& pdo)
 
   return os;
 }
+}  // namespace packman_hardware

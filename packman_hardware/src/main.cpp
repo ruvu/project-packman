@@ -5,8 +5,8 @@
 #include "./control_loop.h"
 #include "./robot_hw.h"
 
-using packman::ControlLoop;
-using packman::RobotHW;
+using packman_hardware::ControlLoop;
+using packman_hardware::RobotHW;
 
 int main(int argc, char* argv[])
 {

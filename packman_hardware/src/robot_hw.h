@@ -4,10 +4,13 @@
 #include <hardware_interface/joint_state_interface.h>
 #include <hardware_interface/robot_hw.h>
 
+#include <string>
+#include <vector>
+
 #include "./messages.h"
 #include "./pacman_interface.h"
 
-namespace packman
+namespace packman_hardware
 {
 struct Joint
 {
@@ -54,4 +57,4 @@ private:
   //!
   PacmanInterface interface_;
 };
-}  // namespace packman
+}  // namespace packman_hardware

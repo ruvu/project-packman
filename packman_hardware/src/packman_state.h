@@ -11,7 +11,7 @@ namespace can
 class Frame;
 }
 
-namespace packman
+namespace packman_hardware
 {
 const std::array<std::string, 2> DRIVE_NAMES = { "left_wheel", "right_wheel" };
 enum DriveIds
@@ -96,4 +96,4 @@ struct State
     Joint() = default;
   } joints_[packman::NUM_DRIVES];  // NOLINT
 };
-}  // namespace packman
+}  // namespace packman_hardware

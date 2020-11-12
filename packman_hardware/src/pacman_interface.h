@@ -5,13 +5,17 @@
 #include <socketcan_interface/socketcan.h>
 #include <socketcan_interface/threading.h>
 
+#include <string>
+
 #include "./messages.h"
 #include "./nmt.hpp"
 
+namespace packman_hardware
+{
 class PacmanInterface
 {
 public:
-  PacmanInterface(const std::string& can_device);
+  explicit PacmanInterface(const std::string& can_device);
   ~PacmanInterface();
 
   void init();
@@ -34,3 +38,4 @@ private:
   std::atomic<NMTstate> nmt_state_;
   std::atomic<RxPDO1> state_;
 };
+}  // namespace packman_hardware

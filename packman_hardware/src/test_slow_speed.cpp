@@ -4,7 +4,11 @@
 #include <ros/init.h>
 #include <ros/node_handle.h>
 
+#include <string>
+
 #include "./pacman_interface.h"
+
+using packman_hardware::PacmanInterface;
 
 int main(int argc, char* argv[])
 {

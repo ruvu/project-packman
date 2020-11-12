@@ -42,14 +42,14 @@
 #include <controller_manager/controller_manager.h>
 #include <hardware_interface/robot_hw.h>
 
+namespace packman_hardware
+{
 // Used to convert seconds elapsed to nanoseconds
 const double BILLION = 1000000000.0;
 
 // Name of this class
 const auto name = "control_loop";
 
-namespace packman
-{
 ControlLoop::ControlLoop(const ros::NodeHandle& nh, const ros::NodeHandle& local_nh,
                          std::shared_ptr<hardware_interface::RobotHW> hardware_interface)
   : hardware_interface_(hardware_interface)
@@ -107,4 +107,4 @@ void ControlLoop::update()
   hardware_interface_->write(now, elapsed_time_);
 }
 
-}  // namespace packman
+}  // namespace packman_hardware
