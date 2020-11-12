@@ -6,10 +6,11 @@
 
 #include <string>
 
-const auto name = "robot_hw";
-
 namespace packman
 {
+const auto name = "robot_hw";
+const std::array<std::string, 2> joint_names = { "left_wheel", "right_wheel" };
+
 void sendRecover(std::shared_ptr<can::ThreadedSocketCANInterface> interface, const can::Frame& frame)
 {
   while (!interface->send(frame))
@@ -27,85 +28,53 @@ void sendRecover(std::shared_ptr<can::ThreadedSocketCANInterface> interface, con
   }
 }
 
-RobotHW::RobotHW(const std::string& can_device)
+RobotHW::RobotHW(const std::string& can_device) : interface_(can_device)
 {
-  for (unsigned int i = 0; i < DRIVE_NAMES.size(); i++)
+}
+
+bool RobotHW::init(ros::NodeHandle& /*root_nh*/, ros::NodeHandle& /*robot_hw_nh*/)
+{
+  interface_.init();
+
+  auto num_joints = joint_names.size();
+  joints_.resize(num_joints);
+  commands_.resize(num_joints);
+
+  for (auto i = 0; i < joint_names.size(); i++)
   {
-    hardware_interface::JointStateHandle joint_state_handle(DRIVE_NAMES[i], &state_.joints_[i].position,
-                                                            &state_.joints_[i].velocity, &state_.joints_[i].effort);
+    hardware_interface::JointStateHandle joint_state_handle(joint_names[i], &joints_[i].position, &joints_[i].velocity,
+                                                            &joints_[i].effort);
     joint_state_interface_.registerHandle(joint_state_handle);
 
-    hardware_interface::JointHandle joint_handle(joint_state_handle, &state_.joints_[i].velocity_command);
+    hardware_interface::JointHandle joint_handle(joint_state_handle, &commands_[i].velocity);
     velocity_joint_interface_.registerHandle(joint_handle);
   }
   registerInterface(&joint_state_interface_);
   registerInterface(&velocity_joint_interface_);
 
-  ROS_INFO_STREAM_NAMED(name, "Binding to socketcan interface " << can_device << " ...");
-  if (!can_interface_.init(can_device, false, can::NoSettings::create()))
-  {
-    throw std::runtime_error("Packman: Could not set-up socketcan interface on device " + can_device);
-  }
-  ROS_INFO_STREAM_NAMED(name, "Initialized socketcan interface on device " << can_device);
-
-  // Register CAN comm
-  using std::placeholders::_1;
-  can_listener_ =
-      can_interface_.createMsgListener(can::MsgHeader(PLC_STATE_ID), std::bind(&RobotHW::plcStateCb, this, _1));
-  state_listener_ = can_interface_.createStateListener(std::bind(&RobotHW::CANStateCb, this, _1));
-}
-
-RobotHW::~RobotHW()
-{
-  ROS_INFO_NAMED(name, "Shutting down the can device");
-  can_interface_.shutdown();
-}
-
-bool RobotHW::init(ros::NodeHandle& /*root_nh*/, ros::NodeHandle& /*robot_hw_nh*/)
-{
-  // TODO(paul):
-  // Send NMT pre-operational
-  // Set heartbeat cycle time to 0.3s using a SDO to 1017 (in ms)
-  // Send NMT operational
   return true;
 }
 
 void RobotHW::read(const ros::Time& /*time*/, const ros::Duration& period)
 {
-  std::lock_guard<std::mutex> lock(state_mutex_);
+  auto pdo = interface_.lastValues();
 
-  state_.joints_[packman::LEFT].velocity = state_.plc_.motor_speeds_[packman::LEFT] / 60 * 2 * M_PI;
-  state_.joints_[packman::LEFT].position += state_.joints_[packman::LEFT].velocity * period.toSec();
-
-  state_.joints_[packman::RIGHT].velocity = state_.plc_.motor_speeds_[packman::RIGHT] / 60 * 2 * M_PI;
-  state_.joints_[packman::RIGHT].position += state_.joints_[packman::RIGHT].velocity * period.toSec();
+  joints_[0].velocity = pdo.actual_left_motor_speed * 60 * 2 * M_PI;
+  joints_[0].position += joints_[0].velocity * period.toSec();
+  joints_[1].velocity = pdo.actual_right_motor_speed * 60 * 2 * M_PI;
+  joints_[1].position += joints_[1].velocity * period.toSec();
 }
 
 void RobotHW::write(const ros::Time& /*time*/, const ros::Duration& /*period*/)
 {
-  // TODO(paul): Cast command velocities to can frame
-  // sendRecover(can_interface_, frame);
-}
-
-void RobotHW::plcStateCb(const can::Frame& f)
-{
-  ROS_INFO_STREAM("Received PlcState frame " << f);
-
-  RxPDO1 pdo(f.data);
-  ROS_INFO_STREAM_NAMED(name, pdo);
-
-  std::lock_guard<std::mutex> lock(state_mutex_);
-  state_.plc_.set(f);
-}
-
-void RobotHW::CANStateCb(const can::State& s)
-{
-  std::string err;
-  can_interface_.translateError(s.internal_error, err);
-
-  std::stringstream msg;
-  msg << "CAN state=" << s.driver_state << " error=" << s.internal_error << "(" << err << ") asio: " << s.error_code;
-
-  ROS_INFO_STREAM("CANState Callback: " << msg.str());
+  TxPDO1 pdo{};
+  pdo.enableLeftMotor(true);
+  pdo.enableRightMotor(true);
+  pdo.ok();
+  pdo.target_left_motor_speed = 1000. * commands_[0].velocity / 60 / 2 / M_PI;
+  pdo.target_right_motor_speed = 1000. * commands_[1].velocity / 60 / 2 / M_PI;
+  // ROS_INFO_STREAM_NAMED(name, "left: " << commands_[0].velocity << ", cmd: " << pdo.target_left_motor_speed);
+  // ROS_INFO_STREAM_NAMED(name, "right: " << commands_[0].velocity << ", cmd: " << pdo.target_left_motor_speed);
+  interface_.sendValues(pdo);
 }
 }  // namespace packman

@@ -86,18 +86,19 @@ static_assert(sizeof(TxPDO1) == 8, "sizeof(TxPDO1) != 8");
 struct RxPDO1
 {
 public:
-  boost::endian::big_int16_t actual_left_motor_speed;
-  boost::endian::big_int16_t actual_right_motor_speed;
-  uint8_t flags;
-  uint8_t digins;
-  uint8_t battery;
+  boost::endian::big_int16_t actual_left_motor_speed = 0;
+  boost::endian::big_int16_t actual_right_motor_speed = 0;
+  uint8_t flags = 0;
+  uint8_t digins = 0;
+  uint8_t battery = 0;
 
   static const unsigned int ID = 0x182;
 
 private:
-  uint8_t reserved;
+  uint8_t reserved = 0;
 
 public:
+  RxPDO1() = default;
   explicit RxPDO1(const std::array<unsigned char, 8> data);
 
   bool moveForkFailure() const

@@ -74,7 +74,8 @@ public:
    * \param NodeHandle
    * \param hardware_interface - the robot-specific hardware interface to be use with your robot
    */
-  ControlLoop(const ros::NodeHandle& nh, std::shared_ptr<hardware_interface::RobotHW> hardware_interface);
+  ControlLoop(const ros::NodeHandle& nh, const ros::NodeHandle& local_nh,
+              std::shared_ptr<hardware_interface::RobotHW> hardware_interface);
 
   // Run the control loop (blocking)
   void run();

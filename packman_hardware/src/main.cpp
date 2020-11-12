@@ -28,7 +28,7 @@ int main(int argc, char* argv[])
   robot_hw->init(nh, local_nh);
 
   // Start the control loop
-  ControlLoop control_loop(local_nh, robot_hw);
+  ControlLoop control_loop(nh, local_nh, robot_hw);
   control_loop.run();  // Blocks until shutdown signal recieved
 
   return 0;

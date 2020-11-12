@@ -5,15 +5,18 @@
 #include <socketcan_interface/socketcan.h>
 #include <socketcan_interface/threading.h>
 
+#include "./messages.h"
 #include "./nmt.hpp"
 
 class PacmanInterface
 {
 public:
-  PacmanInterface();
+  PacmanInterface(const std::string& can_device);
   ~PacmanInterface();
 
   void init();
+  RxPDO1 lastValues();
+  void sendValues(TxPDO1 pdo);
   void drive(double left, double right);
 
 private:
@@ -29,4 +32,5 @@ private:
 
   //  std::atomic<NMTstate::Frame> nmt_state_;
   std::atomic<NMTstate> nmt_state_;
+  std::atomic<RxPDO1> state_;
 };

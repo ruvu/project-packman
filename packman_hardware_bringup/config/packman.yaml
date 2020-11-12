@@ -45,6 +45,7 @@ diff_drive_controller:
       has_jerk_limits        : true
       max_jerk               : 8.0  # rad/s^3
 
-exr1:
+packman_hardware:
   can_device: can0
-  frequency: 100
+  loop_hz: 50
+  cycle_time_error_threshold: 0.01

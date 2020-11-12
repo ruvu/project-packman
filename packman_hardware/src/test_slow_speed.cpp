@@ -10,13 +10,14 @@ int main(int argc, char* argv[])
 {
   ros::init(argc, argv, "test_slow_speed");
 
-  if (ros::console::set_logger_level(ROSCONSOLE_DEFAULT_NAME, ros::console::levels::Debug))
-  {
-    ros::console::notifyLoggerLevelsChanged();
-  }
-
   ros::NodeHandle nh;
-  PacmanInterface interface;
+  ros::NodeHandle local_nh("~");
+
+  std::string can_device;
+  if (!local_nh.getParam("can_device", can_device))
+    throw std::runtime_error("Missing parameter can_device");
+
+  PacmanInterface interface(can_device);
   interface.init();
   ROS_INFO("%s started", ros::NodeHandle("~").getNamespace().c_str());
 

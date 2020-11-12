@@ -50,15 +50,16 @@ const auto name = "control_loop";
 
 namespace packman
 {
-ControlLoop::ControlLoop(const ros::NodeHandle& nh, std::shared_ptr<hardware_interface::RobotHW> hardware_interface)
+ControlLoop::ControlLoop(const ros::NodeHandle& nh, const ros::NodeHandle& local_nh,
+                         std::shared_ptr<hardware_interface::RobotHW> hardware_interface)
   : hardware_interface_(hardware_interface)
 {
   // Create the controller manager
   controller_manager_.reset(new controller_manager::ControllerManager(hardware_interface_.get(), nh));
 
-  if (!nh.getParam("loop_hz", loop_hz_))
+  if (!local_nh.getParam("loop_hz", loop_hz_))
     throw std::runtime_error("Missing parameter loop_hz");
-  if (!nh.getParam("cycle_time_error_threshold", cycle_time_error_threshold_))
+  if (!local_nh.getParam("cycle_time_error_threshold", cycle_time_error_threshold_))
     throw std::runtime_error("Missing parameter cycle_time_error_threshold");
 
   // Get current time for use with first update

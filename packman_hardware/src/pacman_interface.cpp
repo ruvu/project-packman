@@ -2,22 +2,15 @@
 
 #include "./pacman_interface.h"
 
+#include <ros/console.h>
 #include <ros/node_handle.h>
 
 #include <string>
 
-#include "./messages.h"
-
 const auto name = "pacman_interface";
 
-PacmanInterface::PacmanInterface()
+PacmanInterface::PacmanInterface(const std::string& can_device)
 {
-  ros::NodeHandle nh("~");
-
-  std::string can_device;
-  if (!nh.getParam("can_device", can_device))
-    throw std::runtime_error("Missing parameter can_device");
-
   ROS_INFO_STREAM_NAMED(name, "Binding to socketcan interface " << can_device << " ...");
   if (!can_interface_.init(can_device, false, can::NoSettings::create()))
   {
@@ -85,6 +78,21 @@ void PacmanInterface::init()
   // TODO(ramon): Set heartbeat cycle time to 0.3s using a SDO to 1017 (in ms)
 }
 
+RxPDO1 PacmanInterface::lastValues()
+{
+  return state_.load();
+}
+
+void PacmanInterface::sendValues(TxPDO1 pdo)
+{
+  // ROS_INFO_STREAM_NAMED(name, "Sending " << pdo);
+  auto data = static_cast<decltype(can::Frame::data)>(pdo);
+  can::Frame frame(can::Header(TxPDO1::ID, false, false, false), 8);
+  frame.data = data;
+
+  can_interface_.send(frame);
+}
+
 void PacmanInterface::drive(double left, double right)
 {
   TxPDO1 pdo = {};
@@ -93,13 +101,8 @@ void PacmanInterface::drive(double left, double right)
   pdo.ok(true);
   pdo.enableLeftMotor(true);
   pdo.enableRightMotor(true);
-  ROS_INFO_STREAM_NAMED(name, "Sending " << pdo);
 
-  auto data = static_cast<decltype(can::Frame::data)>(pdo);
-  can::Frame frame(can::Header(TxPDO1::ID, false, false, false), 8);
-  frame.data = data;
-
-  can_interface_.send(frame);
+  sendValues(pdo);
 }
 
 void PacmanInterface::plcStateCb(const can::Frame& f)
@@ -107,6 +110,7 @@ void PacmanInterface::plcStateCb(const can::Frame& f)
   // ROS_INFO_STREAM("Received PlcState frame " << f);
 
   RxPDO1 pdo(f.data);
+  state_.store(RxPDO1(f.data));
   // ROS_INFO_STREAM_NAMED(name, pdo);
 }
 
@@ -114,6 +118,6 @@ void PacmanInterface::CANStateCb(const can::State& s)
 {
   std::string err;
   can_interface_.translateError(s.internal_error, err);
-  ROS_INFO_STREAM("CANState Callback: CAN state=" << s.driver_state << " error=" << s.internal_error << "(" << err
-                                                  << ") asio: " << s.error_code);
+  ROS_INFO_STREAM_NAMED(name, "CANState Callback: CAN state=" << s.driver_state << " error=" << s.internal_error << "("
+                                                              << err << ") asio: " << s.error_code);
 }
