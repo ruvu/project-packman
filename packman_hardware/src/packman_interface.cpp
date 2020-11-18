@@ -1,6 +1,6 @@
 // Copyright 2020 RUVU BV.
 
-#include "./packman_interface.h"
+#include "./packman_interface.hpp"
 
 #include <ros/console.h>
 #include <ros/node_handle.h>
@@ -93,18 +93,6 @@ void PackmanInterface::sendValues(TxPDO1 pdo)
   frame.data = data;
 
   can_interface_.send(frame);
-}
-
-void PackmanInterface::drive(double left, double right)
-{
-  TxPDO1 pdo = {};
-  pdo.target_left_motor_speed = left;
-  pdo.target_right_motor_speed = right;
-  pdo.ok(true);
-  pdo.enableLeftMotor(true);
-  pdo.enableRightMotor(true);
-
-  sendValues(pdo);
 }
 
 void PackmanInterface::plcStateCb(const can::Frame& f)

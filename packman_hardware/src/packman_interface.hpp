@@ -7,7 +7,7 @@
 
 #include <string>
 
-#include "./messages.h"
+#include "./messages.hpp"
 #include "./nmt.hpp"
 
 namespace packman_hardware
@@ -21,7 +21,6 @@ public:
   void init();
   RxPDO1 lastValues();
   void sendValues(TxPDO1 pdo);
-  void drive(double left, double right);
 
 private:
   static const uint8_t PLC_NODE_ID = 0x02;

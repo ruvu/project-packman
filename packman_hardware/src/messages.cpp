@@ -1,6 +1,6 @@
 // Copyright 2020 RUVU BV.
 
-#include "./messages.h"
+#include "./messages.hpp"
 
 #include <bitset>
 

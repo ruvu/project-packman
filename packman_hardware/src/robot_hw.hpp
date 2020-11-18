@@ -7,8 +7,8 @@
 #include <string>
 #include <vector>
 
-#include "./messages.h"
-#include "./packman_interface.h"
+#include "./messages.hpp"
+#include "./packman_interface.hpp"
 
 namespace packman_hardware
 {

@@ -37,7 +37,7 @@
    using MONOTOIC system time
 */
 
-#include "./control_loop.h"
+#include "./control_loop.hpp"
 
 #include <controller_manager/controller_manager.h>
 #include <hardware_interface/robot_hw.h>

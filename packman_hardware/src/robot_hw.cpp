@@ -1,6 +1,6 @@
 // Copyright 2020 RUVU BV.
 
-#include "./robot_hw.h"
+#include "./robot_hw.hpp"
 
 #include <socketcan_interface/threading.h>
 

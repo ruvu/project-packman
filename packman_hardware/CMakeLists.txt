@@ -21,32 +21,23 @@ catkin_package(
 ## Build ##
 ###########
 
-## Specify additional locations of header files
-## Your package locations should be listed before other locations
 include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
 add_library(packman_hardware_interface
-  src/control_loop.cpp src/control_loop.h
-  src/messages.cpp src/messages.h
-  src/packman_state.h
-  src/robot_hw.cpp src/robot_hw.h
+  src/control_loop.cpp src/control_loop.hpp
+  src/messages.cpp src/messages.hpp
+  src/robot_hw.cpp src/robot_hw.hpp
   src/nmt.cpp src/nmt.hpp
-  src/packman_interface.cpp src/packman_interface.h
+  src/packman_interface.cpp src/packman_interface.hpp
 )
-target_link_libraries(packman_hardware_interface ${catkin_LIBRARIES} -latomic)
-add_dependencies(packman_hardware_interface ${catkin_EXPORTED_TARGETS})
+target_link_libraries(packman_hardware_interface ${catkin_LIBRARIES})
 
 add_executable(packman_hardware
   src/main.cpp
 )
 target_link_libraries(packman_hardware packman_hardware_interface)
-
-add_executable(test_slow_speed
-  src/test_slow_speed.cpp
-)
-target_link_libraries(test_slow_speed packman_hardware_interface)
 
 #############
 ## Install ##

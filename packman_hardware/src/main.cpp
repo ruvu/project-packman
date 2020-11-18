@@ -2,8 +2,8 @@
 
 #include <string>
 
-#include "./control_loop.h"
-#include "./robot_hw.h"
+#include "./control_loop.hpp"
+#include "./robot_hw.hpp"
 
 using packman_hardware::ControlLoop;
 using packman_hardware::RobotHW;
