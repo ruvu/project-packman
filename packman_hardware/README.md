@@ -2,6 +2,8 @@
 This driver emulates a bluebotic BlueBotics ANT lite+ so that it can control the wheels of the pacman robot.
 
 ## Working with the the USB-to-CAN v2
+__disable secure boot__. The Driver below is not signed, so you will not be able to load it when secure boot is enabled.
+
 Install this kernel driver: https://github.com/jackthompsonnz/socketcan-linux-5.0
 
 Check if you can see the device
