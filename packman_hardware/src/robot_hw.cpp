@@ -59,9 +59,9 @@ void RobotHW::read(const ros::Time& /*time*/, const ros::Duration& period)
 {
   auto pdo = interface_.lastValues();
 
-  joints_[0].velocity = pdo.actual_left_motor_speed * 60 * 2 * M_PI;
+  joints_[0].velocity = pdo.actual_left_motor_speed / 60. * 2 * M_PI / 1e3;
   joints_[0].position += joints_[0].velocity * period.toSec();
-  joints_[1].velocity = pdo.actual_right_motor_speed * 60 * 2 * M_PI;
+  joints_[1].velocity = pdo.actual_right_motor_speed / 60. * 2 * M_PI / 1e3;
   joints_[1].position += joints_[1].velocity * period.toSec();
 }
 
@@ -70,9 +70,9 @@ void RobotHW::write(const ros::Time& /*time*/, const ros::Duration& /*period*/)
   TxPDO1 pdo{};
   pdo.enableLeftMotor(true);
   pdo.enableRightMotor(true);
-  pdo.ok();
-  pdo.target_left_motor_speed = 1000. * commands_[0].velocity / 60 / 2 / M_PI;
-  pdo.target_right_motor_speed = 1000. * commands_[1].velocity / 60 / 2 / M_PI;
+  pdo.ok(true);
+  pdo.target_left_motor_speed = commands_[0].velocity * 60 / 2 / M_PI;
+  pdo.target_right_motor_speed = commands_[1].velocity * 60 / 2 / M_PI;
   // ROS_INFO_STREAM_NAMED(name, "left: " << commands_[0].velocity << ", cmd: " << pdo.target_left_motor_speed);
   // ROS_INFO_STREAM_NAMED(name, "right: " << commands_[0].velocity << ", cmd: " << pdo.target_left_motor_speed);
   interface_.sendValues(pdo);
