@@ -6,9 +6,9 @@
 
 #include <string>
 
-#include "./pacman_interface.h"
+#include "./packman_interface.h"
 
-using packman_hardware::PacmanInterface;
+using packman_hardware::PackmanInterface;
 
 int main(int argc, char* argv[])
 {
@@ -21,7 +21,7 @@ int main(int argc, char* argv[])
   if (!local_nh.getParam("can_device", can_device))
     throw std::runtime_error("Missing parameter can_device");
 
-  PacmanInterface interface(can_device);
+  PackmanInterface interface(can_device);
   interface.init();
   ROS_INFO("%s started", ros::NodeHandle("~").getNamespace().c_str());
 

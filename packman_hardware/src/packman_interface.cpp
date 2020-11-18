@@ -1,6 +1,6 @@
 // Copyright 2020 RUVU BV.
 
-#include "./pacman_interface.h"
+#include "./packman_interface.h"
 
 #include <ros/console.h>
 #include <ros/node_handle.h>
@@ -9,9 +9,9 @@
 
 namespace packman_hardware
 {
-const auto name = "pacman_interface";
+const auto name = "packman_interface";
 
-PacmanInterface::PacmanInterface(const std::string& can_device)
+PackmanInterface::PackmanInterface(const std::string& can_device)
 {
   ROS_INFO_STREAM_NAMED(name, "Binding to socketcan interface " << can_device << " ...");
   if (!can_interface_.init(can_device, false, can::NoSettings::create()))
@@ -25,8 +25,8 @@ PacmanInterface::PacmanInterface(const std::string& can_device)
   // Register CAN comm
   using std::placeholders::_1;
   can_listener_ =
-      can_interface_.createMsgListener(can::MsgHeader(RxPDO1::ID), std::bind(&PacmanInterface::plcStateCb, this, _1));
-  state_listener_ = can_interface_.createStateListener(std::bind(&PacmanInterface::CANStateCb, this, _1));
+      can_interface_.createMsgListener(can::MsgHeader(RxPDO1::ID), std::bind(&PackmanInterface::plcStateCb, this, _1));
+  state_listener_ = can_interface_.createStateListener(std::bind(&PackmanInterface::CANStateCb, this, _1));
   heartbeat_listener_ = can_interface_.createMsgListener(can::MsgHeader(NMTstate::ID), [this](const can::Frame& frame) {
     // ROS_DEBUG_STREAM_NAMED(name, "Heartbeat: " << frame);
     NMTstate::Frame state(frame);
@@ -35,7 +35,7 @@ PacmanInterface::PacmanInterface(const std::string& can_device)
   });
 }
 
-PacmanInterface::~PacmanInterface()
+PackmanInterface::~PackmanInterface()
 {
   ROS_INFO_NAMED(name, "Sending Stop");
   can_interface_.send(NMTcommand::Frame(PLC_NODE_ID, NMTcommand::Stop));
@@ -45,7 +45,7 @@ PacmanInterface::~PacmanInterface()
   puts("Successfully shut down the CAN device");
 }
 
-void PacmanInterface::init()
+void PackmanInterface::init()
 {
   ros::Rate r(1);
   while (ros::ok())
@@ -80,12 +80,12 @@ void PacmanInterface::init()
   // TODO(ramon): Set heartbeat cycle time to 0.3s using a SDO to 1017 (in ms)
 }
 
-RxPDO1 PacmanInterface::lastValues()
+RxPDO1 PackmanInterface::lastValues()
 {
   return state_.load();
 }
 
-void PacmanInterface::sendValues(TxPDO1 pdo)
+void PackmanInterface::sendValues(TxPDO1 pdo)
 {
   // ROS_INFO_STREAM_NAMED(name, "Sending " << pdo);
   auto data = static_cast<decltype(can::Frame::data)>(pdo);
@@ -95,7 +95,7 @@ void PacmanInterface::sendValues(TxPDO1 pdo)
   can_interface_.send(frame);
 }
 
-void PacmanInterface::drive(double left, double right)
+void PackmanInterface::drive(double left, double right)
 {
   TxPDO1 pdo = {};
   pdo.target_left_motor_speed = left;
@@ -107,7 +107,7 @@ void PacmanInterface::drive(double left, double right)
   sendValues(pdo);
 }
 
-void PacmanInterface::plcStateCb(const can::Frame& f)
+void PackmanInterface::plcStateCb(const can::Frame& f)
 {
   // ROS_INFO_STREAM("Received PlcState frame " << f);
 
@@ -116,7 +116,7 @@ void PacmanInterface::plcStateCb(const can::Frame& f)
   // ROS_INFO_STREAM_NAMED(name, pdo);
 }
 
-void PacmanInterface::CANStateCb(const can::State& s)
+void PackmanInterface::CANStateCb(const can::State& s)
 {
   std::string err;
   can_interface_.translateError(s.internal_error, err);

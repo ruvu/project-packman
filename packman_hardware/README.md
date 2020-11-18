@@ -1,5 +1,5 @@
-# Pacman hardware driver
-This driver emulates a bluebotic BlueBotics ANT lite+ so that it can control the wheels of the pacman robot.
+# Packman hardware driver
+This driver emulates a bluebotic BlueBotics ANT lite+ so that it can control the wheels of the packman robot.
 
 ## Working with the the USB-to-CAN v2
 __disable secure boot__. The Driver below is not signed, so you will not be able to load it when secure boot is enabled.

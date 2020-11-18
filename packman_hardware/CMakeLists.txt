@@ -33,7 +33,7 @@ add_library(packman_hardware_interface
   src/packman_state.h
   src/robot_hw.cpp src/robot_hw.h
   src/nmt.cpp src/nmt.hpp
-  src/pacman_interface.cpp src/pacman_interface.h
+  src/packman_interface.cpp src/packman_interface.h
 )
 target_link_libraries(packman_hardware_interface ${catkin_LIBRARIES} -latomic)
 add_dependencies(packman_hardware_interface ${catkin_EXPORTED_TARGETS})

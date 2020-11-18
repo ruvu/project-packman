@@ -8,7 +8,7 @@
 #include <vector>
 
 #include "./messages.h"
-#include "./pacman_interface.h"
+#include "./packman_interface.h"
 
 namespace packman_hardware
 {
@@ -55,6 +55,6 @@ private:
   //!
   //! \brief can_interface_ Socketcan interface (can connection)
   //!
-  PacmanInterface interface_;
+  PackmanInterface interface_;
 };
 }  // namespace packman_hardware

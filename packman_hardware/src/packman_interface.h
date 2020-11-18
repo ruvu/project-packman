@@ -12,11 +12,11 @@
 
 namespace packman_hardware
 {
-class PacmanInterface
+class PackmanInterface
 {
 public:
-  explicit PacmanInterface(const std::string& can_device);
-  ~PacmanInterface();
+  explicit PackmanInterface(const std::string& can_device);
+  ~PackmanInterface();
 
   void init();
   RxPDO1 lastValues();
