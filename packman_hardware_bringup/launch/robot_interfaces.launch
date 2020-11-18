@@ -10,6 +10,7 @@
   <!-- Twist mux -->
   <node pkg="twist_mux" type="twist_mux" name="twist_mux" required="true">
     <rosparam command="load" file="$(find packman_common_bringup)/config/twist_mux.yaml" />
+    <remap from="cmd_vel_out" to="diff_drive_controller/cmd_vel" />
   </node>
 
   <!-- Robot driver -->
