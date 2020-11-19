@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <robot>
-  <gazebo reference="$(arg robot_name)/base_link">
+  <gazebo reference="$(arg robot_prefix)base_link">
     <material>Gazebo/White</material>
   </gazebo>
 
   <!-- Teleport plugin -->
   <gazebo>
     <plugin name="twist_teleport " filename="libruvu_twist_teleport.so">
-      <robotNamespace>$(arg robot_name)</robotNamespace>
+      <robotNamespace>$(arg robot_prefix)</robotNamespace>
       <commandTopic>diff_drive_controller/cmd_vel</commandTopic>
       <commandTimeout>0.1</commandTimeout>
       <odometryTopic>odom</odometryTopic>
@@ -21,7 +21,7 @@
   </gazebo>
 
   <!-- Front laser plugin -->
-  <gazebo reference="$(arg robot_name)/laser_link">
+  <gazebo reference="$(arg robot_prefix)laser_link">
     <sensor type="ray" name="laser_sensor">
       <pose>0 0 0 0 0 0</pose>
       <visualize>false</visualize>
@@ -46,8 +46,8 @@
         </noise>
       </ray>
       <plugin name="libgazebo_ros_laser_front_controller" filename="libgazebo_ros_laser.so">
-        <topicName>$(arg robot_name)/scan</topicName>
-        <frameName>$(arg robot_name)/laser_link</frameName>
+        <topicName>$(arg robot_prefix)scan</topicName>
+        <frameName>$(arg robot_prefix)laser_link</frameName>
       </plugin>
     </sensor>
   </gazebo>

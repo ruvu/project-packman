@@ -13,12 +13,12 @@ diff_drive_controller:
   # Wheel separation and diameter. These are both optional.
   # diff_drive_controller will attempt to read either one or both from the
   # URDF if not specified as a parameter
-  wheel_separation: 0.56
-  wheel_radius: 0.125
+  # wheel_separation: 0.56
+  # wheel_radius: 0.125
 
   # Wheel separation and radius multipliers
   wheel_separation_multiplier: 1.0  # default: 1.0
-  wheel_radius_multiplier    : 1.0  # default: 1.0
+  wheel_radius_multiplier    : 7  # default: 1.0
 
   # Velocity commands timeout [s], default 0.5
   cmd_vel_timeout: 0.1
@@ -29,21 +29,19 @@ diff_drive_controller:
   linear:
     x:
       has_velocity_limits    : true
-      max_velocity           : 0.75  # m/s
-      min_velocity           : -0.75 # m/s
-      has_acceleration_limits: true
-      max_acceleration       : 0.8  # m/s^2
-      min_acceleration       : -0.8 # m/s^2
-      has_jerk_limits        : true
-      max_jerk               : 7.7  # m/s^3
+      min_velocity           : -2 # m/s
+      max_velocity           : 2  # m/s
+      has_acceleration_limits: false
+      has_jerk_limits        : false
   angular:
     z:
       has_velocity_limits    : true
-      max_velocity           : 0.8  # rad/s
-      has_acceleration_limits: true
-      max_acceleration       : 0.85  # rad/s^2
-      has_jerk_limits        : true
-      max_jerk               : 8.0  # rad/s^3
+      max_velocity           : 1  # rad/s
+      has_acceleration_limits: false
+      has_jerk_limits        : false
+  
+  publish_cmd: true
+  allow_multiple_cmd_vel_publishers: false
 
 packman_hardware:
   can_device: can0
