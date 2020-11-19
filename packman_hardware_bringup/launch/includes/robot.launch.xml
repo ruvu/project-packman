@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+
+<launch>
+  <rosparam command="load" file="$(find packman_hardware_bringup)/config/packman.yaml" />
+
+  <node name="packman_hardware" pkg="packman_hardware" type="packman_hardware" required="true">
+    <remap from="diff_drive_controller/odom" to="odom" />
+  </node>
+
+  <node name="controller_spawner" pkg="controller_manager" type="spawner" args="joint_publisher diff_drive_controller" required="true"/>
+</launch>

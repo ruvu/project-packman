@@ -8,7 +8,7 @@
   <gazebo>
     <plugin name="twist_teleport " filename="libruvu_twist_teleport.so">
       <robotNamespace>$(arg robot_name)</robotNamespace>
-      <commandTopic>cmd_vel_out</commandTopic>
+      <commandTopic>diff_drive_controller/cmd_vel</commandTopic>
       <commandTimeout>0.1</commandTimeout>
       <odometryTopic>odom</odometryTopic>
       <odometryFrame>odom</odometryFrame>
