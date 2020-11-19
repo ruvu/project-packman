@@ -17,13 +17,13 @@ struct TxPDO1
 {
   static const unsigned int ID = 0x202;
 
-  boost::endian::big_int16_t target_left_motor_speed;
-  boost::endian::big_int16_t target_right_motor_speed;
+  boost::endian::little_int16_t target_left_motor_speed;
+  boost::endian::little_int16_t target_right_motor_speed;
 
   uint8_t flags;
   uint8_t digouts;
 
-  boost::endian::big_int16_t target_fork_height;
+  boost::endian::little_int16_t target_fork_height;
 
   explicit operator std::array<unsigned char, 8>() const;
 
@@ -89,8 +89,8 @@ struct RxPDO1
 {
   static const unsigned int ID = 0x182;
 
-  boost::endian::big_int16_t actual_left_motor_speed = 0;
-  boost::endian::big_int16_t actual_right_motor_speed = 0;
+  boost::endian::little_int16_t actual_left_motor_speed = 0;
+  boost::endian::little_int16_t actual_right_motor_speed = 0;
   uint8_t flags = 0;
   uint8_t digins = 0;
   uint8_t battery = 0;
@@ -132,9 +132,9 @@ struct TxPDO2
 {
   static const unsigned int ID = 0x302;
 
-  boost::endian::big_int24_t x = 0;
-  boost::endian::big_int24_t y = 0;
-  boost::endian::big_int16_t theta = 0;
+  boost::endian::little_int24_t x = 0;
+  boost::endian::little_int24_t y = 0;
+  boost::endian::little_int16_t theta = 0;
 
   explicit operator std::array<unsigned char, 8>() const;
 
@@ -146,10 +146,10 @@ struct TxPDO3
 {
   static const unsigned int ID = 0x402;
 
-  boost::endian::big_uint16_t critical_errors = 0;
-  boost::endian::big_uint16_t errors = 0;
-  boost::endian::big_uint16_t warnings = 0;
-  boost::endian::big_uint16_t notices = 0;
+  boost::endian::little_uint16_t critical_errors = 0;
+  boost::endian::little_uint16_t errors = 0;
+  boost::endian::little_uint16_t warnings = 0;
+  boost::endian::little_uint16_t notices = 0;
 
   explicit operator std::array<unsigned char, 8>() const;
 

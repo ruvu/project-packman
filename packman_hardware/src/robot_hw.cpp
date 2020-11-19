@@ -71,8 +71,8 @@ void RobotHW::write(const ros::Time& /*time*/, const ros::Duration& /*period*/)
   pdo.enableLeftMotor(true);
   pdo.enableRightMotor(true);
   pdo.ok(true);
-  pdo.target_left_motor_speed = commands_[0].velocity * 60 / 2 / M_PI;
-  pdo.target_right_motor_speed = commands_[1].velocity * 60 / 2 / M_PI;
+  pdo.target_left_motor_speed = commands_[0].velocity * 60 / 2 / M_PI * 1e3;
+  pdo.target_right_motor_speed = commands_[1].velocity * 60 / 2 / M_PI * 1e3;
   // ROS_INFO_STREAM_NAMED(name, "left: " << commands_[0].velocity << ", cmd: " << pdo.target_left_motor_speed);
   // ROS_INFO_STREAM_NAMED(name, "right: " << commands_[0].velocity << ", cmd: " << pdo.target_left_motor_speed);
   interface_.sendValues(pdo);
