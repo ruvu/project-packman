@@ -1,16 +1,16 @@
 <?xml version="1.0"?>
 
 <launch>
-  <arg name="robot_name" default=""/>
+  <arg name="robot_prefix" default=""/>
 
   <!-- Load the robot description on the parameter server -->
   <param name="robot_description" command="xacro --inorder '$(find packman_description)/urdf_xacro/robot.urdf.xacro'
-    robot_name:=$(arg robot_name)"
+    robot_prefix:=$(arg robot_prefix)"
   />
 
   <!-- Spawn the robot using the urdf_xacro -->
   <node name="spawn_model" pkg="ruvu_gazebo_plugins" type="spawn_model" output="screen">
-      <param name="robot_name" value="$(arg robot_name)"/>
+      <param if="$(eval arg('robot_prefix') == '')" name="robot_name" value="$(arg robot_prefix)"/>
   </node>
 
   <!-- Publish joint states -->
