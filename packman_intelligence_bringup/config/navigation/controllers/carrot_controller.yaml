@@ -31,5 +31,5 @@ latch_xy_goal_tolerance: true
 trans_stopped_vel: 0.01
 theta_stopped_vel: 0.01
 
-# Disable forward simulation because the safety field nodes handles that
-sim_time: 0
+# Use forward simulation for safety
+sim_time: 1
