@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+Copyright 2020 RUVU Robotics B.V.
+-->
+
+<launch>
+  <arg name="robot_prefix" default=""/>
+
+  <!-- Gmapping -->
+  <node name="slam_gmapping" pkg="gmapping" type="slam_gmapping" output="screen" required="true">
+    <rosparam file="$(find packman_intelligence_bringup)/config/gmapping.yaml" command="load"/>
+  </node>
+
+  <!-- Navigation -->
+  <include file="$(find packman_intelligence_bringup)/launch/includes/mbf.launch.xml">
+    <arg name="robot_prefix" value="$(arg robot_prefix)"/>
+  </include>
+</launch>

@@ -18,6 +18,7 @@
   <exec_depend>diff_drive_controller</exec_depend>
   <exec_depend>joint_state_controller</exec_depend>
   <exec_depend>joint_state_publisher</exec_depend>
+  <exec_depend>omron_os32c_driver</exec_depend>
   <exec_depend>packman_common_bringup</exec_depend>
   <exec_depend>packman_description</exec_depend>
   <exec_depend>packman_hardware</exec_depend>

@@ -19,6 +19,11 @@
   <!-- Joy teleop -->
   <include file="$(find packman_common_bringup)/launch/joy.launch.xml" />
 
+  <!-- Omron scanner front-->
+  <node pkg="omron_os32c_driver" type="omron_os32c_node" name="omron_driver" required="true">
+    <rosparam command="load" file="$(find packman_hardware_bringup)/config/omron.yaml" />
+  </node>
+
   <!-- Diagnostics -->
   <node name="cpu_monitor" pkg="diagnostic_common_diagnostics" type="cpu_monitor.py" required="true">
       <param name="warning_percentage" value="80" />
