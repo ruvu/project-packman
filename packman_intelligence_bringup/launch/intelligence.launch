@@ -2,6 +2,7 @@
 
 <launch>
   <arg name="robot_prefix" default=""/>
+  <arg name="ROS_HOME" value="$(eval optenv('ROS_HOME', env('HOME') + '/.ros'))"/>
 
   <!-- Localization -->
   <include file="$(find packman_intelligence_bringup)/launch/includes/amcl_localization.launch.xml">
@@ -22,7 +23,6 @@
 
   <!-- Map server -->
   <node name="map_server" pkg="map_server" type="map_server" required="true"
-        args="$(find packman_intelligence_bringup)/maps/map.yaml">
+        args="$(arg ROS_HOME)/maps/map.yaml">
   </node>
-
 </launch>

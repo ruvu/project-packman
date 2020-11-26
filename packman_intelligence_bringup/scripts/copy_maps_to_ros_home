@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+# Copyright 2020 RUVU Robotics B.V.
+
+set -e
+
+
+if [ "$#" -ne 1 ]; then
+    echo "usage: $0 [mapname]"
+fi
+
+MAP_DIR=${ROS_HOME-~/.ros}/maps
+
+# Create the directory is it does not exists yet
+mkdir -p $MAP_DIR
+
+echo "Let's copy the map data"
+install "$(rospack find packman_intelligence_bringup)/maps/$1.pgm" "$MAP_DIR/map.pgm"
+install "$(rospack find packman_intelligence_bringup)/maps/$1.yaml" "$MAP_DIR/map.yaml"
+echo "Done!"

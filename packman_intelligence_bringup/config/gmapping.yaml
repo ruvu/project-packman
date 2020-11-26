@@ -1,0 +1,7 @@
+# Copyright 2020 RUVU Robotics B.V.
+
+srr: 0.01
+srt: 0.02
+str: 0.01
+stt: 0.02
+delta: 0.025
