@@ -5,3 +5,4 @@ frame_id: laser_link
 timestamp_max_acceptable: 0.06
 start_angle: 2.356195
 end_angle: -2.356195
+frequency: 25

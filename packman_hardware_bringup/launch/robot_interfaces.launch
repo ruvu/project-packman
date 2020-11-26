@@ -29,6 +29,7 @@
       <param name="warning_percentage" value="80" />
   </node>
   <node name="diagnostic_aggregator" pkg="diagnostic_aggregator" type="aggregator_node" required="true">
-      <rosparam command="load" file="$(find packman_common_bringup)/config/diagnostic_analyzers.yaml" />
+    <rosparam command="load" file="$(find packman_common_bringup)/config/diagnostic_analyzers.yaml" />
+    <rosparam command="load" file="$(find packman_hardware_bringup)/config/hardware_diagnostic_analyzers.yaml" />
   </node>
 </launch>
