@@ -1,0 +1,12 @@
+# Copyright 2020 RUVU Robotics B.V.
+
+analyzers:
+  robot_interfaces:
+    type: diagnostic_aggregator/AnalyzerGroup
+    path: Robot Interfaces
+    analyzers:
+      lidar:
+        type: diagnostic_aggregator/GenericAnalyzer
+        path: Lidar
+        contains: ['omron_driver']
+        num_items: 1
