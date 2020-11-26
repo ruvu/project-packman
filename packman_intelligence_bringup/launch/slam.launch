@@ -4,8 +4,6 @@ Copyright 2020 RUVU Robotics B.V.
 -->
 
 <launch>
-  <arg name="robot_prefix" default=""/>
-
   <!-- Gmapping -->
   <node name="slam_gmapping" pkg="gmapping" type="slam_gmapping" output="screen" required="true">
     <rosparam file="$(find packman_intelligence_bringup)/config/gmapping.yaml" command="load"/>
