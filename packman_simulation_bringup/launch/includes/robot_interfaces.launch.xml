@@ -10,7 +10,7 @@
 
   <!-- Spawn the robot using the urdf_xacro -->
   <node name="spawn_model" pkg="ruvu_gazebo_plugins" type="spawn_model" output="screen">
-      <param if="$(eval arg('robot_prefix') == '')" name="robot_name" value="$(arg robot_prefix)"/>
+      <param if="$(eval arg('robot_prefix') != '')" name="robot_name" value="$(arg robot_prefix)"/>
   </node>
 
   <!-- Publish joint states -->
