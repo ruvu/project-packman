@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+
+<launch>
+  <node pkg="controller_manager" exec="ros2_control_node">
+    <param from="$(find-pkg-share packman_hardware)/config/hardware.yaml"/>
+    <param name="robot_description" value="$(command 'xacro $(find-pkg-share packman_hardware)/config/robot.urdf.xacro')"/>
+  </node>
+</launch>

@@ -24,3 +24,16 @@ sudo ip link add dev vcan0 type vcan
 sudo ip link set up vcan0
 watch cansend vcan0 182#1122334455667788
 ```
+
+## ROS2 loading controllers
+```sh
+ros2 control load joint_state_controller
+ros2 control load forward_command_controller
+ros2 control switch --start-controllers joint_state_controller forward_command_controller
+```
+Sending a command
+```sh
+ros2 topic pub /forward_command_controller/commands std_msgs/msg/Float64MultiArray "data:
+- 0.5
+- 0.5"
+```

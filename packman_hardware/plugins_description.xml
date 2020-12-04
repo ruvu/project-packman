@@ -1,0 +1,9 @@
+<library path="packman_hardware">
+  <class name="packman_hardware/SystemInterface"
+         type="packman_hardware::SystemInterface"
+         base_class_type="hardware_interface::SystemInterface">
+    <description>
+      The ROS2 Control minimal robot protocol. This is example for start porting the robot from ROS 1.
+    </description>
+  </class>
+</library>

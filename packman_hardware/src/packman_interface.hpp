@@ -2,8 +2,8 @@
 
 #pragma once
 
-#include <socketcan_interface/socketcan.h>
-#include <socketcan_interface/threading.h>
+#include <socketcan_interface/socketcan.hpp>
+#include <socketcan_interface/threading.hpp>
 
 #include <string>
 
@@ -28,6 +28,7 @@ private:
   void plcStateCb(const can::Frame& f);
   void CANStateCb(const can::State& s);
 
+  rclcpp::Logger logger_;
   can::ThreadedSocketCANInterface can_interface_;
   can::CommInterface::FrameListenerConstSharedPtr can_listener_;
   can::StateInterface::StateListenerConstSharedPtr state_listener_;

@@ -1,60 +1,58 @@
-cmake_minimum_required(VERSION 2.8.3)
-project(packman_hardware)
+cmake_minimum_required(VERSION 3.5)
+project(packman_hardware LANGUAGES CXX)
 
-find_package(catkin REQUIRED COMPONENTS
-  controller_manager
-  hardware_interface
-  roscpp
-  socketcan_interface
-  ruvu_lint
-)
+# Default to C++14
+if(NOT CMAKE_CXX_STANDARD)
+  set(CMAKE_CXX_STANDARD 14)
+endif()
 
-###################################
-## catkin specific configuration ##
-###################################
+# find dependencies
+find_package(ament_cmake REQUIRED)
+find_package(ament_cmake_ros REQUIRED)
+find_package(Boost REQUIRED)
+find_package(controller_manager REQUIRED)
+find_package(hardware_interface REQUIRED)
+find_package(socketcan_interface REQUIRED)
 
-catkin_package(
-  CATKIN_DEPENDS roscpp
-)
-
-###########
-## Build ##
-###########
-
-include_directories(
-  ${catkin_INCLUDE_DIRS}
-)
-
-add_library(packman_hardware_interface
-  src/control_loop.cpp src/control_loop.hpp
+add_library(${PROJECT_NAME}
   src/messages.cpp src/messages.hpp
-  src/robot_hw.cpp src/robot_hw.hpp
   src/nmt.cpp src/nmt.hpp
   src/packman_interface.cpp src/packman_interface.hpp
+  src/system_interface.cpp src/system_interface.hpp
 )
-target_link_libraries(packman_hardware_interface ${catkin_LIBRARIES})
-
-add_executable(packman_hardware
-  src/main.cpp
-)
-target_link_libraries(packman_hardware packman_hardware_interface)
-
-#############
-## Install ##
-#############
-
-install(TARGETS packman_hardware packman_hardware_interface
-  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
-
-install(DIRECTORY
-  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+ament_target_dependencies(
+  ${PROJECT_NAME}
+  Boost
+  controller_manager
+  hardware_interface
+  socketcan_interface
 )
 
-#############
-## Testing ##
-#############
+pluginlib_export_plugin_description_file(hardware_interface plugins_description.xml)
 
-set(ROSLINT_CPP_OPTS "--filter=-build/header_guard,-whitespace/braces")
-ruvu_lint_add_test()
+install(
+  TARGETS ${PROJECT_NAME}
+  EXPORT export_${PROJECT_NAME}
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin
+)
+
+install(
+  DIRECTORY config launch
+  DESTINATION share/${PROJECT_NAME}
+)
+
+if(BUILD_TESTING)
+  find_package(ament_lint_auto REQUIRED)
+  ament_lint_auto_find_test_dependencies()
+endif()
+
+ament_export_libraries(
+  ${PROJECT_NAME}
+)
+ament_export_targets(
+  export_${PROJECT_NAME}
+)
+
+ament_package()

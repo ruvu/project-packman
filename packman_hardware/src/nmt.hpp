@@ -2,8 +2,8 @@
 
 #pragma once
 
-#include <ros/console.h>
-#include <socketcan_interface/interface.h>
+#include <rclcpp/logging.hpp>
+#include <socketcan_interface/interface.hpp>
 
 namespace packman_hardware
 {
