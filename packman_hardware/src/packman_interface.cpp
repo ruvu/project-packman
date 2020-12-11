@@ -10,28 +10,9 @@
 
 namespace packman_hardware
 {
-PackmanInterface::PackmanInterface(const std::string& can_device) : logger_(rclcpp::get_logger("packman_interface"))
+PackmanInterface::PackmanInterface() : logger_(rclcpp::get_logger("packman_interface"))
 {
-  RCLCPP_INFO_STREAM(logger_, "Binding to socketcan interface " << can_device << " ...");
-  if (!can_interface_.init(can_device, false))
-  {
-    throw std::runtime_error("Packman: Could not set-up socketcan interface on device " + can_device);
-  }
-  RCLCPP_INFO_STREAM(logger_, "Initialized socketcan interface on device " << can_device);
-
   std::atomic_init(&nmt_state_, NMTstate{});
-
-  // Register CAN comm
-  using std::placeholders::_1;
-  can_listener_ =
-      can_interface_.createMsgListener(can::MsgHeader(RxPDO1::ID), std::bind(&PackmanInterface::plcStateCb, this, _1));
-  state_listener_ = can_interface_.createStateListener(std::bind(&PackmanInterface::CANStateCb, this, _1));
-  heartbeat_listener_ = can_interface_.createMsgListener(can::MsgHeader(NMTstate::ID), [this](const can::Frame& frame) {
-    // ROS_DEBUG_STREAM_NAMED(logger_, "Heartbeat: " << frame);
-    NMTstate::Frame state(frame);
-    nmt_state_.store(state.data);
-    RCLCPP_DEBUG_STREAM(logger_, "Heartbeat: " << state);
-  });
 }
 
 PackmanInterface::~PackmanInterface()
@@ -45,8 +26,27 @@ PackmanInterface::~PackmanInterface()
   puts("Successfully shut down the CAN device");
 }
 
-void PackmanInterface::init()
+void PackmanInterface::init(const std::string& can_device)
 {
+  RCLCPP_INFO_STREAM(logger_, "Binding to socketcan interface " << can_device << " ...");
+  if (!can_interface_.init(can_device, false))
+  {
+    throw std::runtime_error("Packman: Could not set-up socketcan interface on device " + can_device);
+  }
+  RCLCPP_INFO_STREAM(logger_, "Initialized socketcan interface on device " << can_device);
+
+  // Register CAN comm
+  using std::placeholders::_1;
+  can_listener_ =
+      can_interface_.createMsgListener(can::MsgHeader(RxPDO1::ID), std::bind(&PackmanInterface::plcStateCb, this, _1));
+  state_listener_ = can_interface_.createStateListener(std::bind(&PackmanInterface::CANStateCb, this, _1));
+  heartbeat_listener_ = can_interface_.createMsgListener(can::MsgHeader(NMTstate::ID), [this](const can::Frame& frame) {
+    // ROS_DEBUG_STREAM_NAMED(logger_, "Heartbeat: " << frame);
+    NMTstate::Frame state(frame);
+    nmt_state_.store(state.data);
+    RCLCPP_DEBUG_STREAM(logger_, "Heartbeat: " << state);
+  });
+
   rclcpp::Rate r(1);
   while (rclcpp::ok())
   {

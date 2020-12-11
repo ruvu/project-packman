@@ -8,8 +8,7 @@ using hardware_interface::return_type;
 namespace packman_hardware
 {
 // TODO: make can0 configurable
-SystemInterface::SystemInterface()
-  : logger_(rclcpp::get_logger("SystemInterface")), interface_("can0"), clock_(RCL_STEADY_TIME)
+SystemInterface::SystemInterface() : logger_(rclcpp::get_logger("SystemInterface")), clock_(RCL_STEADY_TIME)
 {
 }
 
@@ -23,7 +22,16 @@ hardware_interface::return_type SystemInterface::configure(const hardware_interf
   joints_.resize(info_.joints.size());
   commands_.resize(info_.joints.size());
 
-  interface_.init();
+  try
+  {
+    const auto& can_device = info.hardware_parameters.at("can_device");
+    interface_.init(can_device);
+  }
+  catch (const std::out_of_range&)
+  {
+    RCLCPP_ERROR(logger_, "Parameter 'can_device' not set");
+    return return_type::ERROR;
+  }
 
   status_ = hardware_interface::status::CONFIGURED;
   return return_type::OK;

@@ -15,10 +15,10 @@ namespace packman_hardware
 class PackmanInterface
 {
 public:
-  explicit PackmanInterface(const std::string& can_device);
+  explicit PackmanInterface();
   ~PackmanInterface();
 
-  void init();
+  void init(const std::string& can_device);
   RxPDO1 lastValues();
   void sendValues(TxPDO1 pdo);
 

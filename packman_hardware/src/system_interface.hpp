@@ -32,9 +32,9 @@ private:
   };
 
   rclcpp::Logger logger_;
-  std::vector<Joint> joints_;
-  std::vector<Command> commands_;
-  PackmanInterface interface_;
-  rclcpp::Clock clock_;
+  std::vector<Joint> joints_{};
+  std::vector<Command> commands_{};
+  PackmanInterface interface_{};
+  rclcpp::Clock clock_{ RCL_STEADY_TIME };
 };
 }  // namespace packman_hardware
