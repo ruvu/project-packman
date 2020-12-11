@@ -4,42 +4,23 @@ include:
     file: ROS.gitlab-ci.yml
 
 variables:
+  BUILD_TOOL: colcon
   PACKAGES: >
-    packman_desktop_bringup
-    packman_hardware_bringup
-    packman_intelligence_bringup
-    packman_simulation_bringup
+    packman_hardware
 
-melodic-build-on-schedule:
+foxy-build-on-schedule:
   extends: .build-on-schedule
   variables:
-    ROS_DISTRO: melodic
-melodic-build:
+    ROS_DISTRO: foxy
+foxy-build:
   extends: .build
   variables:
-    ROS_DISTRO: melodic
-melodic-test:
+    ROS_DISTRO: foxy
+foxy-test:
   extends: .test
   variables:
-    ROS_DISTRO: melodic
-melodic-release:
+    ROS_DISTRO: foxy
+foxy-release:
   extends: .release
   variables:
-    ROS_DISTRO: melodic
-
-noetic-build-on-schedule:
-  extends: .build-on-schedule
-  variables:
-    ROS_DISTRO: noetic
-noetic-build:
-  extends: .build
-  variables:
-    ROS_DISTRO: noetic
-#noetic-test:
-#  extends: .test
-#  variables:
-#    ROS_DISTRO: noetic
-noetic-release:
-  extends: .release
-  variables:
-    ROS_DISTRO: noetic
+    ROS_DISTRO: foxy
