@@ -28,6 +28,13 @@ ament_target_dependencies(
   socketcan_interface
 )
 
+add_executable(test_${PROJECT_NAME}
+  src/test_${PROJECT_NAME}.cpp
+)
+target_link_libraries(test_${PROJECT_NAME}
+  ${PROJECT_NAME}
+)
+
 pluginlib_export_plugin_description_file(hardware_interface plugins_description.xml)
 
 install(
@@ -37,6 +44,9 @@ install(
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin
 )
+
+install(TARGETS test_${PROJECT_NAME}
+  DESTINATION lib/${PROJECT_NAME})
 
 install(
   DIRECTORY config launch
