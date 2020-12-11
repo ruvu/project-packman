@@ -1,7 +1,7 @@
 #include "system_interface.hpp"
 
-#include <type_traits>
 #include <hardware_interface/types/hardware_interface_type_values.hpp>
+#include <type_traits>
 
 using hardware_interface::return_type;
 

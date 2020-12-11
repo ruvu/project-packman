@@ -1,9 +1,9 @@
 #include <memory>
 
-#include <rclcpp/node.hpp>
-#include <rclcpp/executors.hpp>
-#include <geometry_msgs/msg/twist.hpp>
 #include "./packman_interface.hpp"
+#include <geometry_msgs/msg/twist.hpp>
+#include <rclcpp/executors.hpp>
+#include <rclcpp/node.hpp>
 
 using packman_hardware::PackmanInterface;
 using packman_hardware::TxPDO1;
@@ -12,8 +12,13 @@ int main(int argc, char* argv[])
 {
   rclcpp::init(argc, argv);
 
+  if (argc != 2)
+  {
+    puts("test_packman_hardware: missing can_device argument");
+    return EXIT_FAILURE;
+  }
   PackmanInterface interface;
-  interface.init("vcan0");
+  interface.init(argv[1]);
 
   const auto node = std::make_shared<rclcpp::Node>("test_packman_hardware");
   const auto sub = node->create_subscription<geometry_msgs::msg::Twist>(
