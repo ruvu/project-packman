@@ -22,7 +22,11 @@ https://blog.mbedded.ninja/programming/operating-systems/linux/how-to-use-socket
 sudo modprobe vcan
 sudo ip link add dev vcan0 type vcan
 sudo ip link set up vcan0
-watch cansend vcan0 182#1122334455667788
+
+# send the correct nmt messages
+cansend vcan0 702#7f
+cansend vcan0 702#05
+candump vcan0 | ts '%H:%M:%.S'
 ```
 
 ## ROS2 loading controllers
