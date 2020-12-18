@@ -8,11 +8,13 @@ using hardware_interface::return_type;
 namespace packman_hardware
 {
 // TODO: make can0 configurable
-SystemInterface::SystemInterface() : logger_(rclcpp::get_logger("SystemInterface")), clock_(RCL_STEADY_TIME)
+SystemInterface::SystemInterface()
+  : logger_(rclcpp::get_logger("SystemInterface")), clock_(RCL_STEADY_TIME)
 {
 }
 
-hardware_interface::return_type SystemInterface::configure(const hardware_interface::HardwareInfo& info)
+hardware_interface::return_type
+SystemInterface::configure(const hardware_interface::HardwareInfo& info)
 {
   RCLCPP_INFO(logger_, "Configure...");
   auto err = configure_default(info);

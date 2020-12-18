@@ -1,14 +1,16 @@
 #pragma once
 
+#include <rclcpp/clock.hpp>
+#include <rclcpp/logging.hpp>
+
+#include "./packman_interface.hpp"
 #include "hardware_interface/base_interface.hpp"
 #include "hardware_interface/system_interface.hpp"
-#include <rclcpp/logging.hpp>
-#include <rclcpp/clock.hpp>
-#include "./packman_interface.hpp"
 
 namespace packman_hardware
 {
-class SystemInterface : public hardware_interface::BaseInterface<hardware_interface::SystemInterface>
+class SystemInterface
+  : public hardware_interface::BaseInterface<hardware_interface::SystemInterface>
 {
 public:
   SystemInterface();

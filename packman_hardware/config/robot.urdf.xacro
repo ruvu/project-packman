@@ -50,7 +50,7 @@
   <ros2_control name="TestSystemComponent" type="system">
     <hardware>
       <plugin>packman_hardware/SystemInterface</plugin>
-      <param name="can_device">can0</param>
+      <param name="can_device">vcan0</param>
     </hardware>
     <joint name="joint1">
       <command_interface name="velocity"/>

@@ -5,7 +5,6 @@
 #include <rclcpp/executor.hpp>
 #include <rclcpp/logging.hpp>
 #include <rclcpp/rate.hpp>
-
 #include <string>
 
 namespace packman_hardware
@@ -31,21 +30,24 @@ void PackmanInterface::init(const std::string& can_device)
   RCLCPP_INFO_STREAM(logger_, "Binding to socketcan interface " << can_device << " ...");
   if (!can_interface_.init(can_device, false))
   {
-    throw std::runtime_error("Packman: Could not set-up socketcan interface on device " + can_device);
+    throw std::runtime_error("Packman: Could not set-up socketcan interface on device " +
+                             can_device);
   }
   RCLCPP_INFO_STREAM(logger_, "Initialized socketcan interface on device " << can_device);
 
   // Register CAN comm
   using std::placeholders::_1;
-  can_listener_ =
-      can_interface_.createMsgListener(can::MsgHeader(RxPDO1::ID), std::bind(&PackmanInterface::plcStateCb, this, _1));
-  state_listener_ = can_interface_.createStateListener(std::bind(&PackmanInterface::CANStateCb, this, _1));
-  heartbeat_listener_ = can_interface_.createMsgListener(can::MsgHeader(NMTstate::ID), [this](const can::Frame& frame) {
-    // ROS_DEBUG_STREAM_NAMED(logger_, "Heartbeat: " << frame);
-    NMTstate::Frame state(frame);
-    nmt_state_.store(state.data);
-    RCLCPP_DEBUG_STREAM(logger_, "Heartbeat: " << state);
-  });
+  can_listener_ = can_interface_.createMsgListener(
+      can::MsgHeader(RxPDO1::ID), std::bind(&PackmanInterface::plcStateCb, this, _1));
+  state_listener_ =
+      can_interface_.createStateListener(std::bind(&PackmanInterface::CANStateCb, this, _1));
+  heartbeat_listener_ = can_interface_.createMsgListener(
+      can::MsgHeader(NMTstate::ID), [this](const can::Frame& frame) {
+        // ROS_DEBUG_STREAM_NAMED(logger_, "Heartbeat: " << frame);
+        NMTstate::Frame state(frame);
+        nmt_state_.store(state.data);
+        RCLCPP_DEBUG_STREAM(logger_, "Heartbeat: " << state);
+      });
 
   rclcpp::Rate r(1);
   while (rclcpp::ok())
@@ -108,7 +110,8 @@ void PackmanInterface::CANStateCb(const can::State& s)
 {
   std::string err;
   can_interface_.translateError(s.internal_error, err);
-  RCLCPP_INFO_STREAM(logger_, "CANState Callback: CAN state=" << s.driver_state << " error=" << s.internal_error << "("
-                                                              << err << ") asio: " << s.error_code);
+  RCLCPP_INFO_STREAM(logger_, "CANState Callback: CAN state=" << s.driver_state << " error="
+                                                              << s.internal_error << "(" << err
+                                                              << ") asio: " << s.error_code);
 }
 }  // namespace packman_hardware

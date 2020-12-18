@@ -4,7 +4,6 @@
 
 #include <socketcan_interface/socketcan.hpp>
 #include <socketcan_interface/threading.hpp>
-
 #include <string>
 
 #include "./messages.hpp"

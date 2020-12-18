@@ -1,9 +1,9 @@
-#include <memory>
-
-#include "./packman_interface.hpp"
 #include <geometry_msgs/msg/twist.hpp>
+#include <memory>
 #include <rclcpp/executors.hpp>
 #include <rclcpp/node.hpp>
+
+#include "./packman_interface.hpp"
 
 using packman_hardware::PackmanInterface;
 using packman_hardware::TxPDO1;
