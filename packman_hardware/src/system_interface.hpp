@@ -26,6 +26,7 @@ public:
 private:
   struct Joint
   {
+    double position;
     double velocity;
   };
   struct Command
@@ -38,5 +39,6 @@ private:
   std::vector<Command> commands_{};
   PackmanInterface interface_{};
   rclcpp::Clock clock_{ RCL_STEADY_TIME };
+  rclcpp::Time last_update_;
 };
 }  // namespace packman_hardware

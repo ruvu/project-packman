@@ -1,25 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<robot name="MinimalRobot">
-  <joint name="base_joint" type="fixed">
-    <origin rpy="0 0 0" xyz="0 0 0"/>
-    <parent link="world"/>
-    <child link="base_link"/>
-  </joint>
+<robot name="packman">
+  <!-- Base -->
   <link name="base_link">
-    <collision>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
+    <collision name="collision">
+      <origin xyz="0.225 0 0.085" rpy="0 0 0"/>
       <geometry>
-        <cylinder length="1" radius="0.1"/>
+        <box size="0.7 0.5 0.13"/>
       </geometry>
     </collision>
+    <inertial>
+      <mass value="0.01"/>
+      <inertia
+        ixx="0.01" ixy="0.0" ixz="0.0"
+        iyy="0.01" iyz="0.0"
+        izz="0.01"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.225 0 0.085" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.7 0.5 0.13"/>
+      </geometry>
+    </visual>
+    <visual>
+      <origin xyz="0.035 0 0.17" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.32 0.5 0.04"/>
+      </geometry>
+    </visual>
+    <visual>
+      <origin xyz="0.225 0 0.215" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.7 0.5 0.05"/>
+      </geometry>
+    </visual>
   </link>
-  <joint name="joint1" type="revolute">
+
+  <!-- Laser -->
+  <joint name="laser_joint" type="fixed">
+    <axis xyz="0 1 0" />
+    <origin xyz="0.47 0 0.17" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="laser_link"/>
+  </joint>
+
+  <link name="laser_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="0.05" radius="0.05"/>
+      </geometry>
+    </visual>
+  </link>
+
+  <!-- Wheels -->
+  <joint name="left_wheel_joint" type="revolute">
     <origin rpy="-1.57079632679 0 0" xyz="0 0 0.2"/>
     <parent link="base_link"/>
-    <child link="link1"/>
+    <child link="left_wheel"/>
     <limit effort="0.1" lower="-3.14159265359" upper="3.14159265359" velocity="0.2"/>
   </joint>
-  <link name="link1">
+  <link name="left_wheel">
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
@@ -27,13 +67,13 @@
       </geometry>
     </collision>
   </link>
-  <joint name="joint2" type="revolute">
+  <joint name="right_wheel_joint" type="revolute">
     <origin rpy="1.57079632679 0 0" xyz="0 0 0.9"/>
-    <parent link="link1"/>
-    <child link="link2"/>
+    <parent link="base_link"/>
+    <child link="right_wheel"/>
     <limit effort="0.1" lower="-3.14159265359" upper="3.14159265359" velocity="0.2"/>
   </joint>
-  <link name="link2">
+  <link name="right_wheel">
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
@@ -41,22 +81,17 @@
       </geometry>
     </collision>
   </link>
-  <joint name="tool_joint" type="fixed">
-    <origin rpy="0 0 0" xyz="0 0 1"/>
-    <parent link="link2"/>
-    <child link="tool_link"/>
-  </joint>
   
   <ros2_control name="TestSystemComponent" type="system">
     <hardware>
       <plugin>packman_hardware/SystemInterface</plugin>
-      <param name="can_device">vcan0</param>
+      <param name="can_device">can0</param>
     </hardware>
-    <joint name="joint1">
+    <joint name="left_wheel">
       <command_interface name="velocity"/>
       <state_interface name="velocity"/>
     </joint>
-    <joint name="joint2">
+    <joint name="right_wheel">
       <command_interface name="velocity"/>
       <state_interface name="velocity"/>
     </joint>

@@ -9,7 +9,9 @@ namespace packman_hardware
 {
 // TODO: make can0 configurable
 SystemInterface::SystemInterface()
-  : logger_(rclcpp::get_logger("SystemInterface")), clock_(RCL_STEADY_TIME)
+  : logger_(rclcpp::get_logger("SystemInterface"))
+  , clock_(RCL_STEADY_TIME)
+  , last_update_(clock_.now())
 {
 }
 
@@ -45,6 +47,8 @@ std::vector<hardware_interface::StateInterface> SystemInterface::export_state_in
   for (std::size_t i = 0; i < info_.joints.size(); i++)
   {
     state_interfaces.emplace_back(hardware_interface::StateInterface(
+        info_.joints[i].name, hardware_interface::HW_IF_POSITION, &joints_[i].position));
+    state_interfaces.emplace_back(hardware_interface::StateInterface(
         info_.joints[i].name, hardware_interface::HW_IF_VELOCITY, &joints_[i].velocity));
   }
 
@@ -79,10 +83,14 @@ hardware_interface::return_type SystemInterface::read()
 {
   auto pdo = interface_.lastValues();
 
+  auto now = clock_.now();
+  auto elapsed = now - last_update_;
+  last_update_ = now;
+
   joints_[0].velocity = pdo.actual_left_motor_speed / 60. * 2 * M_PI / 1e3;
-  // joints_[0].position += joints_[0].velocity * period.toSec();
+  joints_[0].position += joints_[0].velocity * elapsed.seconds();
   joints_[1].velocity = pdo.actual_right_motor_speed / 60. * 2 * M_PI / 1e3;
-  // joints_[1].position += joints_[1].velocity * period.toSec();
+  joints_[1].position += joints_[1].velocity * elapsed.seconds();
   return return_type::OK;
 }
 

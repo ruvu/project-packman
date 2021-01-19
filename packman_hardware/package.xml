@@ -10,7 +10,9 @@
   <buildtool_depend>ament_cmake</buildtool_depend>
 
   <depend>controller_manager</depend>
+  <depend>diff_drive_controller</depend>
   <depend>hardware_interface</depend>
+  <depend>joint_state_controller</depend>
   <depend>socketcan_interface</depend>
 
   <test_depend>ament_lint_auto</test_depend>
