@@ -1,0 +1,9 @@
+[Unit]
+Description=Serial CAN daemon (can-utils) for %I
+BindsTo=dev-%i.device
+After=dev-%i.device
+
+[Service]
+Type=forking
+ExecStart=sh -c "echo starting && slcand -o -c -f -s5 %I can0"
+ExecStartPost=/bin/sh -c '/bin/sleep 3; /sbin/ip link set can0 up'

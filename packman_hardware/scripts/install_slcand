@@ -1,0 +1,14 @@
+#!/bin/sh
+set -eu
+BASEDIR="$( cd "$( dirname "$0" )/.." && pwd )"
+
+echo "Copying systemd units ..."
+sudo cp -v "$BASEDIR"/etc/systemd/system/*.service /etc/systemd/system/
+
+echo "Copying udev rules ..."
+sudo cp -v "$BASEDIR"/etc/udev/*.rules /etc/udev/rules.d/
+
+echo "Reloading rules"
+sudo systemctl daemon-reload 
+sudo udevadm control --reload-rules
+sudo udevadm trigger --action=change

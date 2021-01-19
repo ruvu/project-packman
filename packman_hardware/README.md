@@ -16,6 +16,16 @@ sudo ip link set can0 type can bitrate 250000
 sudo ip link set can0 up
 ```
 
+## Working with LAWICEL_CANUSB
+https://pascal-walter.blogspot.com/2015/08/installing-lawicel-canusb-on-linux.html
+https://github.com/MontaVista-OpenSourceTechnology/meta-agl-demo/blob/master/recipes-core/udev/usb-can-udev-conf/slcand@.service
+```
+sudo modprobe slcan
+sudo slcand -o -c -f -s5 -F /dev/ttyUSB0
+sudo tail -f /var/log/syslog
+sudo ip link set slcan0 up
+```
+
 ## Working with a virtual can interface
 https://blog.mbedded.ninja/programming/operating-systems/linux/how-to-use-socketcan-with-the-command-line-in-linux/
 ```sh
