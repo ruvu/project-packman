@@ -8,19 +8,23 @@
 
   <license>TODO</license>
 
-  <buildtool_depend>catkin</buildtool_depend>
+  <buildtool_depend>ament_cmake</buildtool_depend>
 
-  <build_depend>ruvu_lint</build_depend>
+<!--  <build_depend>ruvu_lint</build_depend>-->
 
-  <exec_depend>amcl</exec_depend>
-  <exec_depend>diagnostic_aggregator</exec_depend>
-  <exec_depend>global_planner</exec_depend>
-  <exec_depend>gmapping</exec_depend>
-  <exec_depend>map_server</exec_depend>
-  <exec_depend>mbf_costmap_nav</exec_depend>
-  <exec_depend>ruvu_carrot_local_planner</exec_depend>
-  <exec_depend>ruvu_msg_converters</exec_depend>
-  <exec_depend>ruvu_networkx</exec_depend>
+<!--  <exec_depend>amcl</exec_depend>-->
+<!--  <exec_depend>diagnostic_aggregator</exec_depend>-->
+<!--  <exec_depend>global_planner</exec_depend>-->
+  <exec_depend>slam_toolbox</exec_depend>
+<!--  <exec_depend>map_server</exec_depend>-->
+<!--  <exec_depend>mbf_costmap_nav</exec_depend>-->
+<!--  <exec_depend>ruvu_carrot_local_planner</exec_depend>-->
+<!--  <exec_depend>ruvu_msg_converters</exec_depend>-->
+<!--  <exec_depend>ruvu_networkx</exec_depend>-->
 
-  <test_depend>roslaunch</test_depend>
+<!--  <test_depend>roslaunch</test_depend>-->
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
 </package>

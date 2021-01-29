@@ -4,8 +4,9 @@ Copyright 2020 RUVU Robotics B.V.
 -->
 
 <launch>
-  <!-- Gmapping -->
-  <node name="slam_gmapping" pkg="gmapping" type="slam_gmapping" output="screen" required="true">
-    <rosparam file="$(find packman_intelligence_bringup)/config/gmapping.yaml" command="load"/>
+<!--  <include file="$(find-pkg-share slam_toolbox)/launch/online_sync_launch.py"/>-->
+  <node pkg="slam_toolbox" exec="sync_slam_toolbox_node">
+    <param from="$(find-pkg-share slam_toolbox)/config/mapper_params_online_sync.yaml"/>
+    <param from="$(find-pkg-share packman_intelligence_bringup)/config/slam_toolbox.yaml"/>
   </node>
 </launch>
