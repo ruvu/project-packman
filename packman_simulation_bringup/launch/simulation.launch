@@ -4,26 +4,28 @@
   <arg name="gui" default="true" />
   <arg name="world" default="ruvu_warehouse" />
 
-  <!-- Load the world specific parameters -->
-  <rosparam command="load" file="$(find packman_simulation_bringup)/worlds/$(arg world).yaml" />
+<!--  &lt;!&ndash; Load the world specific parameters &ndash;&gt;-->
+<!--  <rosparam command="load" file="$(find packman_simulation_bringup)/worlds/$(arg world).yaml" />-->
 
-  <!-- Start a gazebo server with physics disabled -->
-  <include file="$(find gazebo_ros)/launch/empty_world.launch">
-    <arg name="world_name" value="$(find packman_simulation_bringup)/worlds/$(arg world).world"/>
-    <arg name="use_sim_time" value="true"/>
-    <arg name="use_clock_frequency" value="true"/>
-    <arg name="pub_clock_frequency" value="500"/>
-    <arg name="gui" value="$(arg gui)"/>
-    <arg name="debug" value="false"/>
+  <include file="$(find-pkg-share gazebo_ros)/launch/gzserver.launch.py">
+    <arg name="world" value="$(find-pkg-share packman_simulation_bringup)/worlds/$(var world).world"/>
+    <arg name="verbose" value="true"/>
+<!--    <arg name="use_sim_time" value="true"/>-->
+<!--    <arg name="use_clock_frequency" value="true"/>-->
+<!--    <arg name="pub_clock_frequency" value="500"/>-->
+<!--    <arg name="gui" value="$(arg gui)"/>-->
+<!--    <arg name="debug" value="false"/>-->
   </include>
 
-  <include file="$(find packman_simulation_bringup)/launch/includes/robot_interfaces.launch.xml"/>
+  <include file="$(find-pkg-share gazebo_ros)/launch/gzclient.launch.py"/>
 
-  <!-- Diagnostics -->
-  <node name="diagnostic_aggregator" pkg="diagnostic_aggregator" type="aggregator_node">
-    <rosparam command="load" file="$(find packman_common_bringup)/config/diagnostic_analyzers.yaml" />
-  </node>
-  <node name="cpu_monitor" pkg="diagnostic_common_diagnostics" type="cpu_monitor.py" required="true">
-      <param name="warning_percentage" value="100" /> <!-- Because gzclient -->
-  </node>
+  <include file="$(find-pkg-share packman_simulation_bringup)/launch/includes/robot_interfaces.launch.xml"/>
+
+<!--  &lt;!&ndash; Diagnostics &ndash;&gt;-->
+<!--  <node name="diagnostic_aggregator" pkg="diagnostic_aggregator" type="aggregator_node">-->
+<!--    <rosparam command="load" file="$(find-pkg-share packman_common_bringup)/config/diagnostic_analyzers.yaml" />-->
+<!--  </node>-->
+<!--  <node name="cpu_monitor" pkg="diagnostic_common_diagnostics" type="cpu_monitor.py" required="true">-->
+<!--      <param name="warning_percentage" value="100" /> &lt;!&ndash; Because gzclient &ndash;&gt;-->
+<!--  </node>-->
 </launch>

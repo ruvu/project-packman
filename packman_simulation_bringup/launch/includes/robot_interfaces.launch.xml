@@ -3,26 +3,21 @@
 <launch>
   <arg name="robot_prefix" default=""/>
 
-  <!-- Load the robot description on the parameter server -->
-  <param name="robot_description" command="xacro --inorder '$(find packman_description)/urdf_xacro/robot.urdf.xacro'
-    robot_prefix:=$(arg robot_prefix)"
-  />
+  <!-- Publish robot_description & tf -->
+  <node pkg="robot_state_publisher" exec="robot_state_publisher">
+    <param name="robot_description" value="$(command 'xacro $(find-pkg-share packman_description)/urdf_xacro/robot.urdf.xacro')"/>
+  </node>
 
   <!-- Spawn the robot using the urdf_xacro -->
-  <node name="spawn_model" pkg="ruvu_gazebo_plugins" type="spawn_model" output="screen">
-      <param if="$(eval arg('robot_prefix') != '')" name="robot_name" value="$(arg robot_prefix)"/>
-  </node>
+  <node pkg="gazebo_ros" exec="spawn_entity.py" args="-topic robot_description -entity robot" output="screen"/>
 
-  <!-- Publish joint states -->
-  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
+<!--  &lt;!&ndash; Publish joint states &ndash;&gt;-->
+<!--  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>-->
 
-  <!-- Publish transforms -->
-  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
-
-  <!-- Twist mux -->
-  <node pkg="twist_mux" type="twist_mux" name="twist_mux">
-    <rosparam command="load" file="$(find packman_common_bringup)/config/twist_mux.yaml" />
-    <remap from="cmd_vel_out" to="diff_drive_controller/cmd_vel"/>
-  </node>
+<!--  &lt;!&ndash; Twist mux &ndash;&gt;-->
+<!--  <node pkg="twist_mux" type="twist_mux" name="twist_mux">-->
+<!--    <rosparam command="load" file="$(find-pkg-share packman_common_bringup)/config/twist_mux.yaml" />-->
+<!--    <remap from="cmd_vel_out" to="diff_drive_controller/cmd_vel"/>-->
+<!--  </node>-->
 
 </launch>
