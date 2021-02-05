@@ -7,6 +7,7 @@ set -e
 
 if [ "$#" -ne 1 ]; then
     echo "usage: $0 [mapname]"
+    exit 1
 fi
 
 MAP_DIR=${ROS_HOME-~/.ros}/maps
@@ -15,6 +16,6 @@ MAP_DIR=${ROS_HOME-~/.ros}/maps
 mkdir -p $MAP_DIR
 
 echo "Let's copy the map data"
-install "$(rospack find packman_intelligence_bringup)/maps/$1.pgm" "$MAP_DIR/map.pgm"
-install "$(rospack find packman_intelligence_bringup)/maps/$1.yaml" "$MAP_DIR/map.yaml"
+install "$(ros2 pkg prefix packman_intelligence_bringup --share)/maps/$1.pgm" "$MAP_DIR/map.pgm"
+install "$(ros2 pkg prefix packman_intelligence_bringup --share)/maps/$1.yaml" "$MAP_DIR/map.yaml"
 echo "Done!"

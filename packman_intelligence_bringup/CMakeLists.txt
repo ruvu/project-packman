@@ -3,8 +3,12 @@ project(packman_intelligence_bringup)
 
 find_package(ament_cmake REQUIRED)
 
-install(DIRECTORY launch config
+install(DIRECTORY launch config maps
   DESTINATION share/${PROJECT_NAME}/
+)
+
+install(PROGRAMS scripts/copy_maps_to_ros_home
+  DESTINATION lib/${PROJECT_NAME}
 )
 
 if(BUILD_TESTING)
