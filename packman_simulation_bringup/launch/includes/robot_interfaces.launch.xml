@@ -3,6 +3,8 @@
 <launch>
   <arg name="robot_prefix" default=""/>
 
+  <node pkg="joint_state_publisher" exec="joint_state_publisher"/>
+
   <!-- Publish robot_description & tf -->
   <node pkg="robot_state_publisher" exec="robot_state_publisher">
     <param name="robot_description" value="$(command 'xacro $(find-pkg-share packman_description)/urdf_xacro/robot.urdf.xacro')"/>

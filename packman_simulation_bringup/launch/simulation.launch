@@ -4,6 +4,9 @@
   <arg name="gui" default="true" />
   <arg name="world" default="ruvu_warehouse" />
 
+  <!-- TODO: wait for backport of fix: https://github.com/ros2/launch_ros/issues/211 -->
+  <!--  <set_parameter name="use_sim_time" value="true" />-->
+
 <!--  &lt;!&ndash; Load the world specific parameters &ndash;&gt;-->
 <!--  <rosparam command="load" file="$(find packman_simulation_bringup)/worlds/$(arg world).yaml" />-->
 
