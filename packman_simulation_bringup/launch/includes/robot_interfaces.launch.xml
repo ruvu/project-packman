@@ -11,7 +11,7 @@
   </node>
 
   <!-- Spawn the robot using the urdf_xacro -->
-  <node pkg="gazebo_ros" exec="spawn_entity.py" args="-topic robot_description -entity robot" output="screen"/>
+  <node pkg="gazebo_ros" exec="spawn_entity.py" args="-topic robot_description -entity robot -x 5 -y 10 -Y 1.57" output="screen"/>
 
 <!--  &lt;!&ndash; Publish joint states &ndash;&gt;-->
 <!--  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>-->

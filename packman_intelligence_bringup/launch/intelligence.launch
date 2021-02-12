@@ -1,28 +1,16 @@
 <?xml version="1.0"?>
 
 <launch>
-  <arg name="robot_prefix" default=""/>
-  <arg name="ROS_HOME" value="$(eval optenv('ROS_HOME', env('HOME') + '/.ros'))"/>
+<!--  <arg name="robot_prefix" default=""/>-->
+  <arg name="ROS_HOME" default="$(env ROS_HOME $(env HOME)/.ros)"/>
 
-  <!-- Localization -->
-  <include file="$(find packman_intelligence_bringup)/launch/includes/amcl_localization.launch.xml">
-    <arg name="robot_prefix" value="$(arg robot_prefix)"/>
+  <set_parameter name="use_sim_time" value="true" />
+
+  <include file="$(find-pkg-share nav2_bringup)/launch/bringup_launch.py">
+    <arg name="map" value="$(var ROS_HOME)/maps/map.yaml"/>
+    <arg name="params_file" value="$(find-pkg-share packman_intelligence_bringup)/config/nav2_params.yaml"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="autostart" value="true"/>
   </include>
 
-  <!-- Navigation -->
-  <include file="$(find packman_intelligence_bringup)/launch/includes/mbf.launch.xml">
-    <arg name="robot_prefix" value="$(arg robot_prefix)"/>
-  </include>
-
-  <!-- Graph goals for testing -->
-  <node ns="pose_graph" pkg="ruvu_networkx" type="pose_graph_node.py" name="pose_graph_node" required="true">
-    <param name="file_path" value="$(find packman_intelligence_bringup)/config/navigation/pose_graph.yaml"/>
-    <param name="include_goal_pose" value="false"/>
-    <param name="robot_frame_id" value="$(arg robot_prefix)base_link"/>
-  </node>
-
-  <!-- Map server -->
-  <node name="map_server" pkg="map_server" type="map_server" required="true"
-        args="$(arg ROS_HOME)/maps/map.yaml">
-  </node>
 </launch>
