@@ -1,0 +1,11 @@
+# Copyright 2020 RUVU Robotics B.V.
+
+echo "Add user to dialout group, required for opening tty devices"
+sudo adduser `whoami` dialout
+
+echo "Copying udev rules ..."
+sudo cp `rospack find packman_hardware_bringup`/etc/udev/*.rules /etc/udev/rules.d/
+
+echo "Reloading rules"
+sudo udevadm control --reload-rules
+sudo udevadm trigger --action=change
