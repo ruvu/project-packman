@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# Copyright 2020 RUVU Robotics B.V.
+
+set -e
+
+PKG=packman_intelligence_bringup
+PREFIX=packman-intelligence
+
+rosrun ruvu_bringup install_systemd_launch_files "$PKG" "$PREFIX" "$USER" ~/.ruvu/setup.bash
+sudo systemctl daemon-reload

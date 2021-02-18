@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# Copyright 2020 RUVU Robotics B.V.
+
+set -e
+
+PKG=packman_hardware_bringup
+PREFIX=packman-hardware
+
+rosrun ruvu_bringup install_systemd_launch_files "$PKG" "$PREFIX" "$USER" ~/.ruvu/setup.bash
+rosrun ruvu_bringup install_systemd_roscore

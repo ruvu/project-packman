@@ -18,6 +18,7 @@
   <exec_depend>gmapping</exec_depend>
   <exec_depend>map_server</exec_depend>
   <exec_depend>mbf_costmap_nav</exec_depend>
+  <exec_depend>ruvu_bringup</exec_depend>
   <exec_depend>ruvu_carrot_local_planner</exec_depend>
   <exec_depend>ruvu_msg_converters</exec_depend>
   <exec_depend>ruvu_networkx</exec_depend>
