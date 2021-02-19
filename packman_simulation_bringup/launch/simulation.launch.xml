@@ -21,7 +21,7 @@
 
   <include file="$(find-pkg-share gazebo_ros)/launch/gzclient.launch.py"/>
 
-  <include file="$(find-pkg-share packman_simulation_bringup)/launch/includes/robot_interfaces.launch.xml"/>
+  <include file="$(find-pkg-share packman_simulation_bringup)/launch/includes/robot_interfaces.xml"/>
 
 <!--  &lt;!&ndash; Diagnostics &ndash;&gt;-->
 <!--  <node name="diagnostic_aggregator" pkg="diagnostic_aggregator" type="aggregator_node">-->
