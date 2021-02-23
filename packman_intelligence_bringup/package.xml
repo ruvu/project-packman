@@ -10,12 +10,14 @@
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
+  <exec_depend>slam_toolbox</exec_depend>
+  <exec_depend>nav2_bringup</exec_depend>
+
 <!--  <build_depend>ruvu_lint</build_depend>-->
 
 <!--  <exec_depend>amcl</exec_depend>-->
 <!--  <exec_depend>diagnostic_aggregator</exec_depend>-->
 <!--  <exec_depend>global_planner</exec_depend>-->
-  <exec_depend>slam_toolbox</exec_depend>
 <!--  <exec_depend>map_server</exec_depend>-->
 <!--  <exec_depend>mbf_costmap_nav</exec_depend>-->
 <!--  <exec_depend>ruvu_carrot_local_planner</exec_depend>-->
