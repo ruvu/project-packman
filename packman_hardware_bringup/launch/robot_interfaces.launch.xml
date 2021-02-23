@@ -1,35 +1,41 @@
 <?xml version="1.0"?>
 
 <launch>
-  <!-- Load the robot description on the parameter server -->
-  <param name="robot_description" command="xacro --inorder '$(find packman_description)/urdf_xacro/robot.urdf.xacro'"/>
+  <node pkg="robot_state_publisher" exec="robot_state_publisher">
+    <param name="robot_description" value="$(command 'xacro $(find-pkg-share packman_hardware)/config/robot.urdf.xacro')"/>
+  </node>
 
-  <!-- Robot state publisher -->
-  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" required="true"/>
+  <!-- CAN driver -->
+  <node pkg="controller_manager" exec="ros2_control_node">
+    <param from="$(find-pkg-share packman_hardware_bringup)/config/controller_manager.yaml"/>
+    <param name="robot_description" value="$(command 'xacro $(find-pkg-share packman_hardware)/config/robot.urdf.xacro')"/>
+  </node>
+
+  <!-- Omron scanner -->
+  <node pkg="omron_os32c_driver" exec="omron_os32c_node">
+    <param name="host" value="192.168.0.1"/>
+    <param name="frame_id" value="laser_link"/>
+    <param name="timestamp_max_acceptable" value="0.06"/>
+    <param name="start_angle" value="2.356195"/>
+    <param name="end_angle" value="-2.356195"/>
+    <param name="frequency" value="25.0"/>
+  </node>
 
   <!-- Twist mux -->
-  <node pkg="twist_mux" type="twist_mux" name="twist_mux" required="true">
-    <rosparam command="load" file="$(find packman_common_bringup)/config/twist_mux.yaml" />
+  <!-- <node pkg="twist_mux" exec="twist_mux" required="true">
+    <rosparam command="load" file="$(find-pkg-share packman_common_bringup)/config/twist_mux.yaml" />
     <remap from="cmd_vel_out" to="diff_drive_controller/cmd_vel" />
-  </node>
-
-  <!-- Robot driver -->
-  <include file="$(find packman_hardware_bringup)/launch/includes/robot.launch.xml" />
+  </node> -->
 
   <!-- Joy teleop -->
-  <include file="$(find packman_common_bringup)/launch/joy.launch.xml" />
-
-  <!-- Omron scanner front-->
-  <node pkg="omron_os32c_driver" type="omron_os32c_node" name="omron_driver" required="true">
-    <rosparam command="load" file="$(find packman_hardware_bringup)/config/omron.yaml" />
-  </node>
+  <include file="$(find-pkg-share packman_common_bringup)/launch/joy.launch.xml" />
 
   <!-- Diagnostics -->
-  <node name="cpu_monitor" pkg="diagnostic_common_diagnostics" type="cpu_monitor.py" required="true">
+  <!-- <node pkg="diagnostic_common_diagnostics" exec="cpu_monitor.py" required="true">
       <param name="warning_percentage" value="80" />
   </node>
-  <node name="diagnostic_aggregator" pkg="diagnostic_aggregator" type="aggregator_node" required="true">
-    <rosparam command="load" file="$(find packman_common_bringup)/config/diagnostic_analyzers.yaml" />
-    <rosparam command="load" file="$(find packman_hardware_bringup)/config/hardware_diagnostic_analyzers.yaml" />
-  </node>
+  <node pkg="diagnostic_aggregator" exec="aggregator_node" required="true">
+    <rosparam command="load" file="$(find-pkg-share packman_common_bringup)/config/diagnostic_analyzers.yaml" />
+    <rosparam command="load" file="$(find-pkg-share packman_hardware_bringup)/config/hardware_diagnostic_analyzers.yaml" />
+  </node> -->
 </launch>

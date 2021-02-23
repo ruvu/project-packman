@@ -2,14 +2,13 @@
 
 <launch>
   <!-- Gamepad driver -->
-  <node name="joy" pkg="joy" type="joy_node" required="true">
-      <rosparam file="$(find packman_common_bringup)/config/joy.yaml" command="load" />
+  <node pkg="joy" exec="joy_node" required="true">
+      <rosparam file="$(find-pkg-share packman_common_bringup)/config/joy.yaml" command="load" />
   </node>
 
   <!-- Gamepad joy commands to cmd_vel -->
-  <node name="teleop_twist_joy" pkg="teleop_twist_joy" type="teleop_node" required="true">
-      <rosparam file="$(find packman_common_bringup)/config/teleop_twist_joy.yaml" command="load" />
+  <!-- <node pkg="teleop_twist_joy" exec="teleop_node" required="true">
+      <rosparam file="$(find-pkg-share packman_common_bringup)/config/teleop_twist_joy.yaml" command="load" />
       <remap from="cmd_vel" to="joy_teleop/cmd_vel" />
-  </node>
-
+  </node> -->
 </launch>

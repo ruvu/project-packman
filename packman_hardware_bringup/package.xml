@@ -1,31 +1,18 @@
 <?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
   <name>packman_hardware_bringup</name>
   <version>0.0.0</version>
-  <description>The packman_hardware_bringup package</description>
+  <description>TODO: Package description</description>
+  <maintainer email="rayman747@hotmail.com">ramon</maintainer>
+  <license>TODO: License declaration</license>
 
-  <maintainer email="paul@ruvu.nl">paul</maintainer>
+  <buildtool_depend>ament_cmake</buildtool_depend>
 
-  <license>TODO</license>
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
 
-  <buildtool_depend>catkin</buildtool_depend>
-
-  <build_depend>ruvu_lint</build_depend>
-
-  <exec_depend>controller_manager</exec_depend>
-  <exec_depend>diagnostic_aggregator</exec_depend>
-  <exec_depend>diagnostic_common_diagnostics</exec_depend>
-  <exec_depend>diff_drive_controller</exec_depend>
-  <exec_depend>joint_state_controller</exec_depend>
-  <exec_depend>joint_state_publisher</exec_depend>
-  <exec_depend>omron_os32c_driver</exec_depend>
-  <exec_depend>packman_common_bringup</exec_depend>
-  <exec_depend>packman_description</exec_depend>
-  <exec_depend>packman_hardware</exec_depend>
-  <exec_depend>robot_state_publisher</exec_depend>
-  <exec_depend>ruvu_bringup</exec_depend>
-  <exec_depend>twist_mux</exec_depend>
-  <exec_depend>xacro</exec_depend>
-
-  <test_depend>roslaunch</test_depend>
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
 </package>

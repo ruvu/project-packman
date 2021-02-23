@@ -1,20 +1,18 @@
 <?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
   <name>packman_common_bringup</name>
   <version>0.0.0</version>
-  <description>The packman_common_bringup package</description>
+  <description>TODO: Package description</description>
+  <maintainer email="rayman747@hotmail.com">ramon</maintainer>
+  <license>TODO: License declaration</license>
 
-  <maintainer email="paul@ruvu.nl">Paul Verhoeckx</maintainer>
+  <buildtool_depend>ament_cmake</buildtool_depend>
 
-  <license>TODO</license>
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
 
-  <buildtool_depend>catkin</buildtool_depend>
-
-  <build_depend>ruvu_lint</build_depend>
-
-  <exec_depend>joy</exec_depend>
-  <exec_depend>ruvu_teleop</exec_depend>
-  <exec_depend>teleop_twist_joy</exec_depend>
-
-  <test_depend>roslaunch</test_depend>
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
 </package>
