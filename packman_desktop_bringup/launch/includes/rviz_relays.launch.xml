@@ -27,4 +27,21 @@
     <remap from="simple_goal" to="backward_goal"/>
   </node>
 
+  <!-- Graph DWA navigation -->
+  <node name="graph_dwa_rviz_relay" pkg="ruvu_mbf" type="mbf_rviz_relay" required="true">
+    <param name="planner" value="global"/>
+    <param name="controller" value="dwa_controller"/>
+    <remap from="get_path" to="/pose_graph/get_path"/>
+    <remap from="exe_path" to="/move_base_flex/exe_path"/>
+    <remap from="simple_goal" to="graph_dwa_goal"/>
+  </node>
+
+  <!-- Free DWA navigation -->
+  <node name="free_dwa_rviz_relay" pkg="ruvu_mbf" type="mbf_rviz_relay" required="true">
+    <param name="controller" value="dwa_controller"/>
+    <remap from="get_path" to="/move_base_flex/get_path"/>
+    <remap from="exe_path" to="/move_base_flex/exe_path"/>
+    <remap from="simple_goal" to="free_dwa_goal"/>
+  </node>
+
 </launch>
