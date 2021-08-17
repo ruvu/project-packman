@@ -7,6 +7,8 @@ planners:
 controllers:
   - name: carrot_controller
     type: ruvu_carrot_local_planner/CarrotPlannerROS
+  - name: dwa_controller
+    type: dwa_local_planner/DWAPlannerROS
 
 recovery_behaviors: []
 

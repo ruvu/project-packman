@@ -23,5 +23,6 @@
 
     <!-- Controllers -->
     <rosparam ns="carrot_controller" file="$(arg config_path)/navigation/controllers/carrot_controller.yaml" command="load"/>
+    <rosparam ns="dwa_controller" file="$(arg config_path)/navigation/controllers/dwa.yaml" command="load"/>
   </node>
 </launch>

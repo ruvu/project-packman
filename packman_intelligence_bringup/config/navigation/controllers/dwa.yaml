@@ -1,0 +1,75 @@
+#accelarions
+acc_lim_x: 1.0
+acc_lim_y: 0.0
+acc_lim_theta: 10.0
+
+#velocities
+max_vel_x: 0.8
+min_vel_x: 0.0
+max_vel_y: 0.0
+min_vel_y: 0.0
+max_vel_trans: 0.8
+min_vel_trans: 0.0
+max_vel_theta: 1.0
+min_vel_theta: 0
+
+#goal tolerance
+yaw_goal_tolerance: 0.1
+xy_goal_tolerance : 0.1
+latch_xy_goal_tolerance: true
+trans_stopped_vel: 0.01
+theta_stopped_vel: 0.01
+
+#forward simulation
+sim_time: 2.5
+sim_granularity: 0.05
+vx_samples: 11
+vy_samples: 1
+vtheta_samples: 21
+prune_plan: true
+use_dwa: true
+
+publish_traj_pc: true
+max_scaling_factor: 0.0
+
+# Switching behavior
+switch_goal_distance: 0.5
+switch_plan_distance: 0.5
+switch_yaw_error: 1.6
+
+# Cost functions
+align_align_scale: 1.0
+align_plan_scale: 1.0
+align_goal_scale: 0.0
+align_obstacle_scale: 0.1
+
+default_align_scale: 1.0
+default_plan_scale: 0.0
+default_goal_scale: 1.0
+default_obstacle_scale: 0.03
+
+arrive_align_scale: 1.0
+arrive_plan_scale: 0.0
+arrive_goal_scale: 1.0
+arrive_obstacle_scale: 0.01
+
+align_cmd_px:  0.0
+align_cmd_nx:  0.0
+align_cmd_py:  0.0
+align_cmd_ny:  0.0
+align_cmd_pth: 0.0
+align_cmd_nth: 0.0
+
+default_cmd_px:  0.0
+default_cmd_nx:  100.0
+default_cmd_py:  0.0
+default_cmd_ny:  0.0
+default_cmd_pth: 0.0
+default_cmd_nth: 0.0
+
+arrive_cmd_px:  0.0
+arrive_cmd_nx:  0.0
+arrive_cmd_py:  0.0
+arrive_cmd_ny:  0.0
+arrive_cmd_pth: 0.0
+arrive_cmd_nth: 0.0
