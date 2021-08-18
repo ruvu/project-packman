@@ -399,6 +399,11 @@ Visualization Manager:
     - Class: ruvu_rviz_plugins/GraphGoal
       Single click: true
       Topic: graph_goal
+    - Class: packman_desktop_bringup/DwaGoal
+      Topic: free_dwa_goal
+    - Class: ruvu_rviz_plugins/DwaGraphGoal
+      Single click: true
+      Topic: graph_dwa_goal
     - Class: ruvu_rviz_plugins/CancelAllGoals
       Topic: /move_base_flex/exe_path/cancel
   Value: true
